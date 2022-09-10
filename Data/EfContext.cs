@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Data.EntityConfiguration;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Model;
 
@@ -10,7 +11,7 @@ public class EfContext : DbContext
 
     public EfContext(IConfiguration configuration)
     {
-        connectionString = configuration.GetConnectionString("EfConnectionString");
+        connectionString = configuration.GetConnectionString("Ef");
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -30,23 +31,26 @@ public class EfContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        //modelBuilder.ApplyConfiguration(new CourseConfiguration());
-
-        var room = new Room
-        {
-            Id = 1,
-            Number = 101
-        };
-
-        modelBuilder.Entity<Room>().HasData(room);
+        modelBuilder.ApplyConfiguration(new HotelConfiguration());
+        modelBuilder.ApplyConfiguration(new RoomConfiguration());
+        modelBuilder.ApplyConfiguration(new BookingConfiguration());
+        modelBuilder.ApplyConfiguration(new CustomerConfiguration());
 
         var hotel = new Hotel
         {
             Id = 1,
-            Name = "Cancun Bay Resort",
-            RoomId = 1
+            Name = "Cancun Bay Resort"
         };
 
         modelBuilder.Entity<Hotel>().HasData(hotel);
+
+        var room = new Room
+        {
+            Id = 1,
+            Number = 101,
+            HotelId = 1
+        };
+
+        modelBuilder.Entity<Room>().HasData(room);
     }
 }
