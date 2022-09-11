@@ -4,7 +4,7 @@ namespace Data.Repository;
 
 public interface IRepository<T> where T : class
 {
-    T? Get(int id);
+    T? Get(long id);
     IEnumerable<T> GetAll();
     IEnumerable<T> Find(Expression<Func<T, bool>> predicate);
 

@@ -7,6 +7,7 @@ namespace BookingApi.Features.Customer
         public static IServiceCollection AddServicesFromCustomer(this IServiceCollection services)
         {
             services.AddTransient<GetCustomers>();
+            services.AddTransient<GetCustomerById>();
             return services;
         }
     }

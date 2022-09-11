@@ -9,14 +9,17 @@ public class CustomerController : ControllerBase
 {
     private readonly ILogger<CustomerController> logger;
     private readonly GetCustomers getCustomers;
+    private readonly GetCustomerById getCustomerById;
 
-    public CustomerController(ILogger<CustomerController> logger, GetCustomers getCustomers)
+    public CustomerController(ILogger<CustomerController> logger, GetCustomers getCustomers,
+        GetCustomerById getCustomerById)
     {
         this.logger = logger;
         this.getCustomers = getCustomers;
+        this.getCustomerById = getCustomerById;
     }
 
-    [HttpGet]
+    [HttpGet("GetAll")]
     public IActionResult GetAll()
     {
         try
@@ -32,6 +35,25 @@ public class CustomerController : ControllerBase
         {
             logger.LogError(e.ToString());
             return BadRequest("Error getting the customers");
+        }
+    }
+
+    [HttpGet("GetById/id/{id:long}")]
+    public IActionResult GetById(long id)
+    {
+        try
+        {
+            var customer = getCustomerById.Handle(id);
+
+            if (customer is null)
+                return NotFound();
+
+            return Ok(customer);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e.ToString());
+            return BadRequest("Error getting the customer");
         }
     }
 }

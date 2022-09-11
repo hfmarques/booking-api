@@ -12,7 +12,7 @@ public class Repository<T> : IRepository<T> where T : class
         Context = context;
     }
 
-    public T? Get(int id)
+    public T? Get(long id)
     {
         return Context.Set<T>().Find(id);
     }
