@@ -69,12 +69,12 @@ public class BookingController : ControllerBase
         }
     }
 
-    [HttpGet("GetActiveBookingsByRoomId/RoomId/{id:long}")]
-    public IActionResult GetActiveBookingsByRoomId(long id)
+    [HttpGet("GetActiveBookingsByRoomId/RoomId/{roomId:long}")]
+    public IActionResult GetActiveBookingsByRoomId(long roomId)
     {
         try
         {
-            var bookings = getActiveBookingsByRoomId.Handle(id);
+            var bookings = getActiveBookingsByRoomId.Handle(roomId);
 
             if (bookings.Count == 0)
                 return NotFound();
