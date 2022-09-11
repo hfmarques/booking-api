@@ -28,7 +28,7 @@ namespace Data.Migrations
                 name: "Hotels",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
                 },
@@ -41,10 +41,10 @@ namespace Data.Migrations
                 name: "Rooms",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Number = table.Column<int>(type: "int", nullable: false),
-                    HotelId = table.Column<int>(type: "int", nullable: false)
+                    HotelId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -65,7 +65,8 @@ namespace Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RoomId = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    RoomId = table.Column<long>(type: "bigint", nullable: false),
                     CustomerId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -88,12 +89,12 @@ namespace Data.Migrations
             migrationBuilder.InsertData(
                 table: "Hotels",
                 columns: new[] { "Id", "Name" },
-                values: new object[] { 1, "Cancun Bay Resort" });
+                values: new object[] { 1L, "Cancun Bay Resort" });
 
             migrationBuilder.InsertData(
                 table: "Rooms",
                 columns: new[] { "Id", "HotelId", "Number" },
-                values: new object[] { 1, 1, 101 });
+                values: new object[] { 1L, 1L, 101 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_CustomerId",
