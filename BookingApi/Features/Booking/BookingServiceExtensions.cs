@@ -1,3 +1,4 @@
+using BookingApi.Features.Booking.Commands;
 using BookingApi.Features.Booking.Queries;
 
 namespace BookingApi.Features.Booking
@@ -8,6 +9,11 @@ namespace BookingApi.Features.Booking
         {
             services.AddTransient<GetBookings>();
             services.AddTransient<GetBookingById>();
+            services.AddTransient<BookRoom>();
+            services.AddTransient<CancelBook>();
+            services.AddTransient<UpdateBook>();
+            services.AddTransient<GetFutureBookings>();
+            services.AddTransient<GetActiveBookingsByRoomId>();
             return services;
         }
     }

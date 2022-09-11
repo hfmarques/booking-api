@@ -1,4 +1,5 @@
-﻿using BookingApi.Features.Customer.Queries;
+﻿using BookingApi.Features.Customer.Commands;
+using BookingApi.Features.Customer.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingApi.Features.Customer;
@@ -10,13 +11,15 @@ public class CustomerController : ControllerBase
     private readonly ILogger<CustomerController> logger;
     private readonly GetCustomers getCustomers;
     private readonly GetCustomerById getCustomerById;
+    private readonly CreateCustomer createCustomer;
 
     public CustomerController(ILogger<CustomerController> logger, GetCustomers getCustomers,
-        GetCustomerById getCustomerById)
+        GetCustomerById getCustomerById, CreateCustomer createCustomer)
     {
         this.logger = logger;
         this.getCustomers = getCustomers;
         this.getCustomerById = getCustomerById;
+        this.createCustomer = createCustomer;
     }
 
     [HttpGet("GetAll")]
@@ -55,5 +58,26 @@ public class CustomerController : ControllerBase
             logger.LogError(e.ToString());
             return BadRequest("Error getting the customer");
         }
+    }
+
+    [HttpPost("CreateCustomer")]
+    public IActionResult CreateCustomer(Model.Customer customer)
+    {
+        try
+        {
+            createCustomer.Handle(customer);
+        }
+        catch (Exception e) when (e is ArgumentNullException or ArgumentException)
+        {
+            logger.LogError(e.ToString());
+            return BadRequest(e.Message);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e.ToString());
+            return BadRequest("Unexpected error saving the booking");
+        }
+
+        return Created("", customer);
     }
 }

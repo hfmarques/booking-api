@@ -10,7 +10,7 @@ public class Booking
     public DateTime EndDate { get; set; }
     public BookingStatus Status { get; set; }
     public long RoomId { get; set; }
-    public Room Room { get; set; }
+    public virtual Room Room { get; set; }
     public long CustomerId { get; set; }
-    public Customer Customer { get; set; }
+    public virtual Customer Customer { get; set; }
 }

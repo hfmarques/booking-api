@@ -5,5 +5,5 @@ public class Hotel
 {
     public long Id { get; set; }
     public string Name { get; set; }
-    public List<Room> Room { get; set; }
+    public virtual List<Room> Room { get; set; }
 }

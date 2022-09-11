@@ -4,7 +4,6 @@ using BookingApi.Features.Booking.Commands;
 using Data;
 using Data.Repository;
 using Model;
-using Model.Enum;
 
 namespace BookingApi.UnitTests.Features.Booking.Commands;
 
@@ -38,7 +37,7 @@ public class BookRoomTests
 
         customerRepository.Setup(x =>
                 x.Get(It.IsAny<long>()))
-            .Returns(new Customer());
+            .Returns(new Model.Customer());
 
         bookRoom = new BookRoom(unitOfWork.Object);
         booking = new Model.Booking();
@@ -65,7 +64,7 @@ public class BookRoomTests
     {
         customerRepository.Setup(x =>
                 x.Get(It.IsAny<long>()))
-            .Returns((Customer) null!);
+            .Returns((Model.Customer) null!);
 
         Assert.That(() => bookRoom.Handle(booking), Throws.ArgumentException);
     }
@@ -116,8 +115,8 @@ public class BookRoomTests
     [TestCase(3, 5, 2, 4)]
     [TestCase(3, 5, 4, 4)]
     public void Handle_WhenOverlappingExist_ThrowBookingException(
-        int bookStart, 
-        int bookEnd, 
+        int bookStart,
+        int bookEnd,
         int existBookStart,
         int existBookEnd)
     {
@@ -133,11 +132,11 @@ public class BookRoomTests
         bookingRepository.Setup(x =>
                 x.Find(It.IsAny<Expression<Func<Model.Booking, bool>>>()))
             .Returns(new List<Model.Booking> {overlappingBooking});
-        
+
         Assert.That(() => bookRoom.Handle(booking),
             Throws.TypeOf(typeof(BookingException)));
     }
-    
+
     [Test]
     public void Handle_WhenNoOverlapExist_ThrowsNothing()
     {
@@ -147,7 +146,7 @@ public class BookRoomTests
         bookingRepository.Setup(x =>
                 x.Find(It.IsAny<Expression<Func<Model.Booking, bool>>>()))
             .Returns(new List<Model.Booking>());
-        
+
         Assert.That(() => bookRoom.Handle(booking),
             Throws.Nothing);
     }

@@ -1,3 +1,4 @@
+using BookingApi.Features.Customer.Commands;
 using BookingApi.Features.Customer.Queries;
 
 namespace BookingApi.Features.Customer
@@ -8,6 +9,7 @@ namespace BookingApi.Features.Customer
         {
             services.AddTransient<GetCustomers>();
             services.AddTransient<GetCustomerById>();
+            services.AddTransient<CreateCustomer>();
             return services;
         }
     }

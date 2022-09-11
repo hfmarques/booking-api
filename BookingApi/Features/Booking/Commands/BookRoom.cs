@@ -47,6 +47,7 @@ public class BookRoom
         if (overlappingBooking is not null)
             throw new BookingException("A book already exist.");
 
+        booking.Status = BookingStatus.Confirmed;
         unitOfWork.Bookings.Add(booking);
         unitOfWork.SaveChanges();
     }
