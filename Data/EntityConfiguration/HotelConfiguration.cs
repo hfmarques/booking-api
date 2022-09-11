@@ -10,9 +10,9 @@ public class HotelConfiguration : IEntityTypeConfiguration<Hotel>
     {
         builder.Property(x => x.Name).IsRequired().HasMaxLength(255);
 
-        builder.HasOne(x => x.Room)
+        builder.HasMany(x => x.Room)
             .WithOne(x => x.Hotel)
-            .HasForeignKey<Room>(x => x.HotelId)
+            .HasForeignKey(x => x.HotelId)
             .IsRequired();
     }
 }
