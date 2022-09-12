@@ -3,7 +3,6 @@ using BookingApi.Features.Booking.Commands;
 using Data;
 using Data.Repository;
 using Model;
-using Model.Enum;
 
 namespace BookingApi.UnitTests.Features.Booking.Commands;
 
@@ -14,6 +13,7 @@ public class VerifyBookingAvailabilityTests
     private Mock<IUnitOfWork> unitOfWork;
     private Mock<IRoomRepository> roomRepository;
     private Mock<ICustomerRepository> customerRepository;
+    private Mock<IVerifyBookingOverlapping> verifyBookingOverlapping;
     private VerifyBookingAvailability verifyBookingAvailability;
     private Model.Booking newBooking;
     private List<Model.Booking> existedBookings;
@@ -24,6 +24,7 @@ public class VerifyBookingAvailabilityTests
     {
         roomRepository = new Mock<IRoomRepository>();
         customerRepository = new Mock<ICustomerRepository>();
+        verifyBookingOverlapping = new Mock<IVerifyBookingOverlapping>();
 
         unitOfWork = new Mock<IUnitOfWork>();
         unitOfWork.Setup(x => x.Rooms).Returns(roomRepository.Object);
@@ -37,8 +38,14 @@ public class VerifyBookingAvailabilityTests
                 x.Get(It.IsAny<long>()))
             .Returns(new Model.Customer());
 
-        verifyBookingAvailability = new VerifyBookingAvailability(unitOfWork.Object);
-        newBooking = new Model.Booking();
+        verifyBookingAvailability = new VerifyBookingAvailability(unitOfWork.Object, verifyBookingOverlapping.Object);
+        newBooking = new Model.Booking
+        {
+            StartDate = DateTime.Now.AddDays(1),
+            EndDate = DateTime.Now.AddDays(2),
+            RoomId = 1,
+            CustomerId = 1
+        };
         existedBookings = new List<Model.Booking>();
     }
 
@@ -123,30 +130,15 @@ public class VerifyBookingAvailabilityTests
     }
 
     [Test]
-    [TestCase(1, 2, 2, 4)]
-    [TestCase(1, 3, 2, 4)]
-    [TestCase(2, 3, 2, 4)]
-    [TestCase(2, 4, 2, 4)]
-    [TestCase(3, 4, 2, 4)]
-    [TestCase(3, 5, 2, 4)]
-    [TestCase(4, 5, 2, 4)]
-    [TestCase(3, 3, 2, 4)]
-    [TestCase(1, 3, 2, 2)]
-    public void Handle_WhenOverlappingExist_ReturnFalse(
-        int bookStart,
-        int bookEnd,
-        int existBookStart,
-        int existBookEnd)
+    public void Handle_WhenOverlappingExist_ReturnFalse()
     {
-        newBooking.StartDate = DateTime.Now.AddDays(bookStart);
-        newBooking.EndDate = DateTime.Now.AddDays(bookEnd);
-
-        existedBookings.Add(new Model.Booking
-        {
-            StartDate = DateTime.Now.AddDays(existBookStart),
-            EndDate = DateTime.Now.AddDays(existBookEnd),
-            Status = BookingStatus.Confirmed
-        });
+        verifyBookingOverlapping.Setup(x =>
+                x.Handle(
+                    It.IsAny<DateTime>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<long>(),
+                    It.IsAny<List<Model.Booking>>()))
+            .Returns(false);
 
         var result = verifyBookingAvailability.Handle(newBooking, existedBookings);
 
@@ -154,17 +146,15 @@ public class VerifyBookingAvailabilityTests
     }
 
     [Test]
-    public void Handle_WhenNoOverlapExist_ThrowsNothing()
+    public void Handle_WhenNoOverlapExist_ReturnTrue()
     {
-        newBooking.StartDate = DateTime.Now.AddDays(1);
-        newBooking.EndDate = DateTime.Now.AddDays(2);
-
-        existedBookings.Add(new Model.Booking
-        {
-            StartDate = DateTime.Now.AddDays(4),
-            EndDate = DateTime.Now.AddDays(5),
-            Status = BookingStatus.Confirmed
-        });
+        verifyBookingOverlapping.Setup(x =>
+                x.Handle(
+                    It.IsAny<DateTime>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<long>(),
+                    It.IsAny<List<Model.Booking>>()))
+            .Returns(true);
 
         var result = verifyBookingAvailability.Handle(newBooking, existedBookings);
         Assert.That(result, Is.EqualTo(true));

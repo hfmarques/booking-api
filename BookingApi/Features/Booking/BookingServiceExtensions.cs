@@ -15,6 +15,7 @@ namespace BookingApi.Features.Booking
             services.AddTransient<GetFutureBookings>();
             services.AddTransient<GetActiveBookingsByRoomId>();
             services.AddTransient<IVerifyBookingAvailability, VerifyBookingAvailability>();
+            services.AddTransient<IVerifyBookingOverlapping, VerifyBookingOverlapping>();
             return services;
         }
     }

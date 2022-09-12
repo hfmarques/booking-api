@@ -1,5 +1,4 @@
 ﻿using Data;
-using Model.Enum;
 
 namespace BookingApi.Features.Booking.Commands;
 
@@ -11,10 +10,12 @@ public interface IVerifyBookingAvailability
 public class VerifyBookingAvailability : IVerifyBookingAvailability
 {
     private readonly IUnitOfWork unitOfWork;
+    private readonly IVerifyBookingOverlapping verifyBookingOverlapping;
 
-    public VerifyBookingAvailability(IUnitOfWork unitOfWork)
+    public VerifyBookingAvailability(IUnitOfWork unitOfWork, IVerifyBookingOverlapping verifyBookingOverlapping)
     {
         this.unitOfWork = unitOfWork;
+        this.verifyBookingOverlapping = verifyBookingOverlapping;
     }
 
     public bool Handle(Model.Booking booking, List<Model.Booking> bookings)
@@ -45,13 +46,6 @@ public class VerifyBookingAvailability : IVerifyBookingAvailability
         if ((booking.StartDate - DateTime.Now).TotalDays > 30)
             throw new BookingException("The booking can't be reserved more than 30 days in advance.");
 
-        var overlappingBooking =
-            bookings.FirstOrDefault(x =>
-                booking.StartDate.Date <= x.EndDate.Date &&
-                x.StartDate.Date <= booking.EndDate.Date &&
-                x.Status == BookingStatus.Confirmed &&
-                x.RoomId == booking.RoomId);
-
-        return overlappingBooking is null;
+        return verifyBookingOverlapping.Handle(booking.StartDate, booking.EndDate, booking.RoomId, bookings);
     }
 }

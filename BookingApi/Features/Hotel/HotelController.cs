@@ -62,8 +62,8 @@ public class HotelController : ControllerBase
         }
     }
 
-    [HttpGet("GetById/id/{id:int}")]
-    public IActionResult GerById(int id)
+    [HttpGet("GetById/id/{id:long}")]
+    public IActionResult GerById(long id)
     {
         try
         {
