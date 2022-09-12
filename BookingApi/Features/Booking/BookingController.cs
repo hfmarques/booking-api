@@ -156,7 +156,7 @@ public class BookingController : ControllerBase
             updateBooking.Handle(booking);
             return Ok(booking);
         }
-        catch (Exception e) when (e is ArgumentNullException or ArgumentException)
+        catch (Exception e) when (e is ArgumentNullException or ArgumentException or BookingException)
         {
             logger.LogError(e.ToString());
             return BadRequest(new {ErrorMessage = e.Message});
