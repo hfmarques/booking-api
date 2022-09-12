@@ -46,7 +46,7 @@ public class BookingController : ControllerBase
         catch (Exception e)
         {
             logger.LogError(e.ToString());
-            return BadRequest("Error getting the bookings");
+            return BadRequest(new {ErrorMessage = "Error getting the bookings"});
         }
     }
 
@@ -65,7 +65,7 @@ public class BookingController : ControllerBase
         catch (Exception e)
         {
             logger.LogError(e.ToString());
-            return BadRequest("Error getting the booking");
+            return BadRequest(new {ErrorMessage = "Error getting the booking"});
         }
     }
 
@@ -84,7 +84,7 @@ public class BookingController : ControllerBase
         catch (Exception e)
         {
             logger.LogError(e.ToString());
-            return BadRequest("Error getting the bookings");
+            return BadRequest(new {ErrorMessage = "Error getting the bookings"});
         }
     }
 
@@ -103,7 +103,7 @@ public class BookingController : ControllerBase
         catch (Exception e)
         {
             logger.LogError(e.ToString());
-            return BadRequest("Error getting the bookings");
+            return BadRequest(new {ErrorMessage = "Error getting the bookings"});
         }
     }
 
@@ -117,12 +117,12 @@ public class BookingController : ControllerBase
         catch (Exception e) when (e is ArgumentNullException or ArgumentException or BookingException)
         {
             logger.LogError(e.ToString());
-            return BadRequest(e.Message);
+            return BadRequest(new {ErrorMessage = e.Message});
         }
         catch (Exception e)
         {
             logger.LogError(e.ToString());
-            return BadRequest("Unexpected error saving the booking");
+            return BadRequest(new {ErrorMessage = "Unexpected error saving the booking"});
         }
 
         return Created("", booking);
@@ -139,12 +139,12 @@ public class BookingController : ControllerBase
         catch (ArgumentException e)
         {
             logger.LogError(e.ToString());
-            return BadRequest(e.Message);
+            return BadRequest(new {ErrorMessage = e.Message});
         }
         catch (Exception e)
         {
             logger.LogError(e.ToString());
-            return BadRequest("Unexpected error updating the booking");
+            return BadRequest(new {ErrorMessage = "Unexpected error updating the booking"});
         }
     }
 
@@ -159,12 +159,12 @@ public class BookingController : ControllerBase
         catch (Exception e) when (e is ArgumentNullException or ArgumentException)
         {
             logger.LogError(e.ToString());
-            return BadRequest(e.Message);
+            return BadRequest(new {ErrorMessage = e.Message});
         }
         catch (Exception e)
         {
             logger.LogError(e.ToString());
-            return BadRequest("Unexpected error updating the booking");
+            return BadRequest(new {ErrorMessage = "Unexpected error updating the booking"});
         }
     }
 }

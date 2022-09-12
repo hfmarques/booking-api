@@ -39,7 +39,7 @@ public class HotelController : ControllerBase
         catch (Exception e)
         {
             logger.LogError(e.ToString());
-            return BadRequest("Error getting the hotels");
+            return BadRequest(new {ErrorMessage = "Error getting the hotels"});
         }
     }
 
@@ -58,7 +58,7 @@ public class HotelController : ControllerBase
         catch (Exception e)
         {
             logger.LogError(e.ToString());
-            return BadRequest("Error getting the hotels");
+            return BadRequest(new {ErrorMessage = "Error getting the hotels"});
         }
     }
 
@@ -77,7 +77,7 @@ public class HotelController : ControllerBase
         catch (Exception e)
         {
             logger.LogError(e.ToString());
-            return BadRequest("Error getting the hotel");
+            return BadRequest(new {ErrorMessage = "Error getting the hotel"});
         }
     }
 }

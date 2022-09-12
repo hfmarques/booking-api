@@ -39,7 +39,7 @@ public class RoomController : ControllerBase
         catch (Exception e)
         {
             logger.LogError(e.ToString());
-            return BadRequest("Error getting the rooms");
+            return BadRequest(new {ErrorMessage = "Error getting the rooms"});
         }
     }
 
@@ -58,7 +58,7 @@ public class RoomController : ControllerBase
         catch (Exception e)
         {
             logger.LogError(e.ToString());
-            return BadRequest("Error getting the room");
+            return BadRequest(new {ErrorMessage = "Error getting the room"});
         }
     }
 
@@ -69,12 +69,12 @@ public class RoomController : ControllerBase
         {
             var roomAvailable = checkRoomAvailability.Handle(roomId, startDate, endDate);
 
-            return Ok(roomAvailable);
+            return Ok(new {roomAvailable});
         }
         catch (Exception e)
         {
             logger.LogError(e.ToString());
-            return BadRequest("Error getting the room");
+            return BadRequest(new {ErrorMessage = "Error getting the room"});
         }
     }
 }

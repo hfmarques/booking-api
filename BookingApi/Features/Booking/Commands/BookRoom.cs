@@ -23,6 +23,7 @@ public class BookRoom
 
         if (verifyBookingAvailability.Handle(booking, existedBooking))
         {
+            booking.Id = 0;
             booking.Status = BookingStatus.Confirmed;
             booking.StartDate = booking.StartDate.Date;
             booking.EndDate = booking.EndDate.Date;
