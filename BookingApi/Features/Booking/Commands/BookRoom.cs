@@ -32,7 +32,7 @@ public class BookRoom
         }
         else
         {
-            throw new BookingException("A reservation already exists on the requested dates.");
+            throw new BookingException("A reservation already exists on the requested date.");
         }
     }
 }

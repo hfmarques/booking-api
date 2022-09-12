@@ -31,6 +31,7 @@ public class VerifyBookingAvailability : IVerifyBookingAvailability
         if (customer is null)
             throw new ArgumentException("Customer does not existed");
 
+        //'DAY' in the hotel room starts from 00:00 to 23:59:59, so I can use datetime.Date to verify the dates
         if (booking.StartDate.Date > booking.EndDate.Date)
             throw new BookingException("The startDate must be lower than endDate");
 
@@ -39,11 +40,11 @@ public class VerifyBookingAvailability : IVerifyBookingAvailability
             throw new BookingException("You cannot book a date in the pass");
 
         //the stay can’t be longer than 3 days
-        if ((booking.EndDate - booking.StartDate).TotalDays > 3)
+        if ((booking.EndDate.Date - booking.StartDate.Date).TotalDays >= 3)
             throw new BookingException("The stay can't be longer than 3 days");
 
         //can’t be reserved more than 30 days in advance.
-        if ((booking.StartDate - DateTime.Now).TotalDays > 30)
+        if ((booking.StartDate.Date - DateTime.Now.Date).TotalDays >= 30)
             throw new BookingException("The booking can't be reserved more than 30 days in advance.");
 
         return verifyBookingOverlapping.Handle(booking.StartDate, booking.EndDate, booking.RoomId, bookings);

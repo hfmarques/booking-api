@@ -109,7 +109,7 @@ public class VerifyBookingAvailabilityTests
     public void Handle_StayLongerThan3Days_ThrowsBookingException()
     {
         newBooking.StartDate = DateTime.Now;
-        newBooking.EndDate = DateTime.Now.AddDays(5);
+        newBooking.EndDate = DateTime.Now.AddDays(3);
 
         Assert.That(() => verifyBookingAvailability.Handle(
                 newBooking,
@@ -120,7 +120,7 @@ public class VerifyBookingAvailabilityTests
     [Test]
     public void Handle_BookingReservedWithMoreThan30DaysAhead_ThrowsBookingException()
     {
-        newBooking.StartDate = DateTime.Now.AddDays(31);
+        newBooking.StartDate = DateTime.Now.AddDays(30);
         newBooking.EndDate = DateTime.Now.AddDays(32);
 
         Assert.That(() => verifyBookingAvailability.Handle(
