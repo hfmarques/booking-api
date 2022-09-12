@@ -6,12 +6,12 @@ using Model.Enum;
 namespace BookingApi.UnitTests.Features.Booking.Commands;
 
 [TestFixture]
-public class CancelBookTests
+public class CancelBookingTests
 {
 #nullable disable
     private Mock<IUnitOfWork> unitOfWork;
     private Mock<IBookingRepository> bookingRepository;
-    private CancelBook cancelBook;
+    private CancelBooking cancelBooking;
 #nullable enable
 
     [SetUp]
@@ -22,13 +22,13 @@ public class CancelBookTests
         unitOfWork = new Mock<IUnitOfWork>();
         unitOfWork.Setup(x => x.Bookings).Returns(bookingRepository.Object);
 
-        cancelBook = new CancelBook(unitOfWork.Object);
+        cancelBooking = new CancelBooking(unitOfWork.Object);
     }
 
     [Test]
     public void Handle_IdIsZero_ThrowsArgumentException()
     {
-        Assert.That(() => cancelBook.Handle(0), Throws.ArgumentException);
+        Assert.That(() => cancelBooking.Handle(0), Throws.ArgumentException);
     }
 
     [Test]
@@ -38,7 +38,7 @@ public class CancelBookTests
                 x.Get(It.IsAny<long>()))
             .Returns((Model.Booking) null!);
 
-        Assert.That(() => cancelBook.Handle(1), Throws.ArgumentException);
+        Assert.That(() => cancelBooking.Handle(1), Throws.ArgumentException);
     }
 
     [Test]
@@ -48,8 +48,8 @@ public class CancelBookTests
                 x.Get(It.IsAny<long>()))
             .Returns(new Model.Booking());
 
-        var result = cancelBook.Handle(1);
-        
+        var result = cancelBooking.Handle(1);
+
         Assert.That(result.Status, Is.EqualTo(BookingStatus.Cancelled));
     }
 }

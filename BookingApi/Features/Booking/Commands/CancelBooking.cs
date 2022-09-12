@@ -3,11 +3,11 @@ using Model.Enum;
 
 namespace BookingApi.Features.Booking.Commands;
 
-public class CancelBook
+public class CancelBooking
 {
     private readonly IUnitOfWork unitOfWork;
 
-    public CancelBook(IUnitOfWork unitOfWork)
+    public CancelBooking(IUnitOfWork unitOfWork)
     {
         this.unitOfWork = unitOfWork;
     }

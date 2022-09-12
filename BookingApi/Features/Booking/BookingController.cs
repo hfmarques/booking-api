@@ -12,21 +12,21 @@ public class BookingController : ControllerBase
     private readonly GetBookings getBookings;
     private readonly GetBookingById getBookingById;
     private readonly BookRoom bookRoom;
-    private readonly CancelBook cancelBook;
-    private readonly UpdateBook updateBook;
+    private readonly CancelBooking cancelBooking;
+    private readonly UpdateBooking updateBooking;
     private readonly GetActiveBookingsByRoomId getActiveBookingsByRoomId;
     private readonly GetFutureBookings getFutureBookings;
 
     public BookingController(ILogger<BookingController> logger, GetBookings getBookings, GetBookingById getBookingById,
-        BookRoom bookRoom, CancelBook cancelBook, UpdateBook updateBook,
+        BookRoom bookRoom, CancelBooking cancelBooking, UpdateBooking updateBooking,
         GetActiveBookingsByRoomId getActiveBookingsByRoomId, GetFutureBookings getFutureBookings)
     {
         this.logger = logger;
         this.getBookings = getBookings;
         this.getBookingById = getBookingById;
         this.bookRoom = bookRoom;
-        this.cancelBook = cancelBook;
-        this.updateBook = updateBook;
+        this.cancelBooking = cancelBooking;
+        this.updateBooking = updateBooking;
         this.getActiveBookingsByRoomId = getActiveBookingsByRoomId;
         this.getFutureBookings = getFutureBookings;
     }
@@ -128,12 +128,12 @@ public class BookingController : ControllerBase
         return Created("", booking);
     }
 
-    [HttpPut("CancelBook/id/{id:long}")]
-    public IActionResult CancelBook(long id)
+    [HttpPut("CancelBooking/id/{id:long}")]
+    public IActionResult CancelBooking(long id)
     {
         try
         {
-            var booking = cancelBook.Handle(id);
+            var booking = cancelBooking.Handle(id);
             return Ok(booking);
         }
         catch (ArgumentException e)
@@ -148,12 +148,12 @@ public class BookingController : ControllerBase
         }
     }
 
-    [HttpPut("UpdateBook")]
-    public IActionResult UpdateBook(Model.Booking booking)
+    [HttpPut("UpdateBooking")]
+    public IActionResult UpdateBooking(Model.Booking booking)
     {
         try
         {
-            updateBook.Handle(booking);
+            updateBooking.Handle(booking);
             return Ok(booking);
         }
         catch (Exception e) when (e is ArgumentNullException or ArgumentException)
