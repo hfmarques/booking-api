@@ -11,12 +11,17 @@ public class RoomController : ControllerBase
     private readonly ILogger<RoomController> logger;
     private readonly GetRooms getRooms;
     private readonly GetRoomById getRoomById;
+    private readonly CheckRoomAvailability checkRoomAvailability;
 
-    public RoomController(ILogger<RoomController> logger, GetRooms getRooms, GetRoomById getRoomById)
+    public RoomController(ILogger<RoomController> logger,
+        GetRooms getRooms,
+        GetRoomById getRoomById,
+        CheckRoomAvailability checkRoomAvailability)
     {
         this.logger = logger;
         this.getRooms = getRooms;
         this.getRoomById = getRoomById;
+        this.checkRoomAvailability = checkRoomAvailability;
     }
 
     [HttpGet("GetAll")]
@@ -34,12 +39,12 @@ public class RoomController : ControllerBase
         catch (Exception e)
         {
             logger.LogError(e.ToString());
-            return BadRequest("Error getting the rooms");
+            return BadRequest(new {ErrorMessage = "Error getting the rooms"});
         }
     }
 
-    [HttpGet("GetById/id/{id:int}")]
-    public IActionResult GetById(int id)
+    [HttpGet("GetById/id/{id:long}")]
+    public IActionResult GetById(long id)
     {
         try
         {
@@ -53,7 +58,23 @@ public class RoomController : ControllerBase
         catch (Exception e)
         {
             logger.LogError(e.ToString());
-            return BadRequest("Error getting the room");
+            return BadRequest(new {ErrorMessage = "Error getting the room"});
+        }
+    }
+
+    [HttpGet("CheckRoomAvailability/roomId/{roomId:int}/startDate/{startDate:datetime}/endDate/{endDate:datetime}")]
+    public IActionResult CheckRoomAvailability(long roomId, DateTime startDate, DateTime endDate)
+    {
+        try
+        {
+            var roomAvailable = checkRoomAvailability.Handle(roomId, startDate, endDate);
+
+            return Ok(new {roomAvailable});
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e.ToString());
+            return BadRequest(new {ErrorMessage = "Error getting the room"});
         }
     }
 }

@@ -37,7 +37,7 @@ public class CustomerController : ControllerBase
         catch (Exception e)
         {
             logger.LogError(e.ToString());
-            return BadRequest("Error getting the customers");
+            return BadRequest(new {ErrorMessage = "Error getting the customers"});
         }
     }
 
@@ -56,7 +56,7 @@ public class CustomerController : ControllerBase
         catch (Exception e)
         {
             logger.LogError(e.ToString());
-            return BadRequest("Error getting the customer");
+            return BadRequest(new {ErrorMessage = "Error getting the customer"});
         }
     }
 
@@ -70,12 +70,12 @@ public class CustomerController : ControllerBase
         catch (Exception e) when (e is ArgumentNullException or ArgumentException)
         {
             logger.LogError(e.ToString());
-            return BadRequest(e.Message);
+            return BadRequest(new {ErrorMessage = e.Message});
         }
         catch (Exception e)
         {
             logger.LogError(e.ToString());
-            return BadRequest("Unexpected error saving the booking");
+            return BadRequest(new {ErrorMessage = "Unexpected error saving the booking"});
         }
 
         return Created("", customer);

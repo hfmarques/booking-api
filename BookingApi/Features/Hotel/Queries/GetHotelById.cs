@@ -11,7 +11,7 @@ public class GetHotelById
         this.unitOfWork = unitOfWork;
     }
 
-    public Model.Hotel? Handle(int id)
+    public Model.Hotel? Handle(long id)
     {
         return unitOfWork.Hotels.Get(id);
     }

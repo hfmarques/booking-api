@@ -10,10 +10,12 @@ namespace BookingApi.Features.Booking
             services.AddTransient<GetBookings>();
             services.AddTransient<GetBookingById>();
             services.AddTransient<BookRoom>();
-            services.AddTransient<CancelBook>();
-            services.AddTransient<UpdateBook>();
+            services.AddTransient<CancelBooking>();
+            services.AddTransient<UpdateBooking>();
             services.AddTransient<GetFutureBookings>();
             services.AddTransient<GetActiveBookingsByRoomId>();
+            services.AddTransient<IVerifyBookingAvailability, VerifyBookingAvailability>();
+            services.AddTransient<IVerifyBookingOverlapping, VerifyBookingOverlapping>();
             return services;
         }
     }

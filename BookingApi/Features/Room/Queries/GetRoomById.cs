@@ -11,7 +11,7 @@ public class GetRoomById
         this.unitOfWork = unitOfWork;
     }
 
-    public Model.Room? Handle(int id)
+    public Model.Room? Handle(long id)
     {
         return unitOfWork.Rooms.Get(id);
     }

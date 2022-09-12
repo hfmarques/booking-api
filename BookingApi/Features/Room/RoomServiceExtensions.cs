@@ -9,6 +9,7 @@ namespace BookingApi.Features.Room
         {
             services.AddTransient<GetRooms>();
             services.AddTransient<GetRoomById>();
+            services.AddTransient<CheckRoomAvailability>();
             return services;
         }
     }
