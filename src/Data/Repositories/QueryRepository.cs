@@ -18,7 +18,7 @@ public class QueryRepository<T> : IQueryRepository<T> where T : DatabaseEntity
     {
         return await _context.Set<T>().ToListAsync();
     }
-    public async Task<T?> GetByIdAsync(Guid id)
+    public async Task<T?> GetByIdAsync(long id)
     {
         return await _context.Set<T>().FindAsync(id);
     }
