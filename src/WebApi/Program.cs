@@ -3,6 +3,7 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
+using WebApi.Apis.Room;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,8 +51,6 @@ builder.Services.AddSwaggerGen(c => { });
 
 var app = builder.Build();
 
-AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-
 // using var scope = app.Services.CreateScope();
 // var db = scope.ServiceProvider.GetRequiredService<PostgresDbContext>();
 // if (!db.Database.IsInMemory())
@@ -62,6 +61,8 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 // }
 
 app.MapHealthChecks("/health").AllowAnonymous();
+
+app.AddApisFromRooms();
 
 app.UseSwagger();
 app.UseSwaggerUI();

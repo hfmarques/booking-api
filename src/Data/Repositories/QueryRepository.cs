@@ -5,29 +5,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repositories;
 
-public class QueryRepository<T> : IQueryRepository<T> where T : DatabaseEntity
+public class QueryRepository<T>(DbContext context) : IQueryRepository<T> where T : DatabaseEntity
 {
-    private readonly DbContext _context;
-
-    public QueryRepository(DbContext context)
-    {
-        _context = context;
-    }
-
     public async Task<IEnumerable<T>> GetAllAsync()
     {
-        return await _context.Set<T>().ToListAsync();
+        return await context.Set<T>().ToListAsync();
     }
     public async Task<T?> GetByIdAsync(long id)
     {
-        return await _context.Set<T>().FindAsync(id);
+        return await context.Set<T>().FindAsync(id);
     }
     public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
     {
-        return await _context.Set<T>().Where(predicate).ToListAsync();
+        return await context.Set<T>().Where(predicate).ToListAsync();
     }
     public async Task<T?> FindSingleOrDefaultAsync(Expression<Func<T, bool>> predicate)
     {
-        return await _context.Set<T>().Where(predicate).SingleOrDefaultAsync();
+        return await context.Set<T>().Where(predicate).SingleOrDefaultAsync();
     }
 }

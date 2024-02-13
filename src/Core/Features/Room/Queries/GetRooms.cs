@@ -7,13 +7,7 @@ public interface IGetRooms
     Task<IEnumerable<Domain.Entities.Room>> Handle();
 }
 
-public class GetRooms : IGetRooms
+public class GetRooms(IQueryRepository<Domain.Entities.Room> queryRepository) : IGetRooms
 {
-    private readonly IQueryRepository<Domain.Entities.Room> _queryRepository;
-
-    public GetRooms(IQueryRepository<Domain.Entities.Room> queryRepository)
-    {
-        _queryRepository = queryRepository;
-    }
-    public async Task<IEnumerable<Domain.Entities.Room>> Handle() => await _queryRepository.GetAllAsync();
+    public async Task<IEnumerable<Domain.Entities.Room>> Handle() => await queryRepository.GetAllAsync();
 }

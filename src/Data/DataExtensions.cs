@@ -10,7 +10,11 @@ public static class DataExtensions
 {
     public static void AddServicesFromData(this IServiceCollection services, string connectionString)
     {
-        services.AddDbContext<DbContext, PostgresDbContext>(options => options.UseNpgsql(connectionString));
+        services.AddSingleton<UpdateDatabaseEntityInterceptor>();
+        services.AddDbContext<DbContext, PostgresDbContext>((sp, options) =>
+                options.UseNpgsql(connectionString)
+                .AddInterceptors(sp.GetRequiredService<UpdateDatabaseEntityInterceptor>())
+            );
         
         services.AddTransient<IQueryRepository<Room>, QueryRepository<Room>>();
         services.AddTransient<ICommandRepository<Room>, CommandRepository<Room>>();
