@@ -18,7 +18,7 @@ public static class GetRoomsApi
                 {
                     var rooms = await getRooms.Handle();
 
-                    return Results.Ok(rooms);
+                    return !rooms.Any() ? Results.NotFound(new List<Core.Domain.Entities.Room>()) : Results.Ok(rooms);
                 }
                 catch (Exception e)
                 {

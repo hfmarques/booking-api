@@ -4,10 +4,10 @@ namespace Core.Features.Room.Queries;
 
 public interface IGetRooms
 {
-    Task<IEnumerable<Domain.Entities.Room>> Handle();
+    Task<List<Domain.Entities.Room>> Handle();
 }
 
 public class GetRooms(IQueryRepository<Domain.Entities.Room> queryRepository) : IGetRooms
 {
-    public async Task<IEnumerable<Domain.Entities.Room>> Handle() => await queryRepository.GetAllAsync();
+    public async Task<List<Domain.Entities.Room>> Handle() => (await queryRepository.GetAllAsync()).ToList();
 }

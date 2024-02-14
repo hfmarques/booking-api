@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Data;
 
-public class PostgresDbContext : DbContext
+public class PostgresDbContext(DbContextOptions<PostgresDbContext> options) : DbContext(options)
 {
     protected override void OnModelCreating(ModelBuilder builder)
     {

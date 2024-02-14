@@ -8,8 +8,8 @@ namespace Core.Features.Hotel
         public static void AddServicesFromHotel(this IServiceCollection services)
         {
             services.AddTransient<IGetHotels, GetHotels>();
-            services.AddTransient<IGetHotelById, IGetHotelById>();
-            services.AddTransient<IGetHotelWithRoomsById, IGetHotelWithRoomsById>();
+            services.AddTransient<IGetHotelById, GetHotelById>();
+            services.AddTransient<IGetHotelWithRoomsById, GetHotelWithRoomsById>();
         }
     }
 }
