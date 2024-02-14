@@ -9,7 +9,6 @@ namespace Core.Features.Hotel
         {
             services.AddTransient<IGetHotels, GetHotels>();
             services.AddTransient<IGetHotelById, GetHotelById>();
-            services.AddTransient<IGetHotelWithRoomsById, GetHotelWithRoomsById>();
         }
     }
 }

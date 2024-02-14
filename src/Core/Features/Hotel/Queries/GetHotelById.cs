@@ -9,5 +9,5 @@ public interface IGetHotelById
 public class GetHotelById(IHotelQueryRepository hotelQueryRepository) : IGetHotelById
 {
     public async Task<Domain.Entities.Hotel?> Handle(long id) => 
-        await hotelQueryRepository.GetByIdAsync(id);
+        await hotelQueryRepository.GetHotelById(id);
 }

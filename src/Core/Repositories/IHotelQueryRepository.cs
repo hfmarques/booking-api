@@ -5,6 +5,6 @@ namespace Core.Repositories
 {
     public interface IHotelQueryRepository : IQueryRepository<Hotel>
     {
-        Task<Hotel?> GetHotelWithRoomsById(long id);
+        Task<Hotel?> GetHotelById(long id);
     }
 }

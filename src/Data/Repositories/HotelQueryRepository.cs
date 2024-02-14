@@ -6,7 +6,7 @@ namespace Data.Repositories;
 
 public class HotelQueryRepository(DbContext context) : QueryRepository<Hotel>(context), IHotelQueryRepository
 {
-    public async Task<Hotel?> GetHotelWithRoomsById(long id)
+    public async Task<Hotel?> GetHotelById(long id)
     {
         return await context.Set<Hotel>()
             .Include(x => x.Rooms)
