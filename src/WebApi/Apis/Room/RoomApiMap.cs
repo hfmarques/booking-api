@@ -10,5 +10,6 @@ public static class RoomApiMap
             .WithTags("Room");
 
         app.MapGetRoomsApi(group);
+        app.MapGetRoomByIdApi(group);
     }
 }

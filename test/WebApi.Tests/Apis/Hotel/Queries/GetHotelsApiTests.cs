@@ -1,12 +1,12 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 
-namespace WebApi.Tests.Apis.Room.Queries;
+namespace WebApi.Tests.Apis.Hotel.Queries;
 
-public class GetRoomsApiTests
+public class GetHotelsApiTests
 {
     [Fact]    
-    public async Task GetAllRoomsApi_ReturnsOk()
+    public async Task GetAllHotelsApi_ReturnsOk()
     {
         await using var application = new WebApiApplication();
         var db = application.CreatePostgresDbContext();
@@ -17,23 +17,22 @@ public class GetRoomsApiTests
         await db.SaveChangesAsync();
         
         var client = application.CreateClient();
-        var result = await client.GetFromJsonAsync<List<Core.Domain.Entities.Room>>("/rooms");
+        var result = await client.GetFromJsonAsync<List<Core.Domain.Entities.Hotel>>("/hotels");
 
         Assert.NotNull(result);
         Assert.NotEmpty(result);
-        Assert.Equal(2, result.Count);
-        Assert.Equal(hotel.Rooms[0].Number, result.First(x => x.Id == hotel.Rooms[0].Id).Number);
-        Assert.Equal(hotel.Rooms[1].Number, result.First(x => x.Id == hotel.Rooms[1].Id).Number);
+        Assert.Single(result);
+        Assert.Equal(hotel.Name, result.First().Name);
     }
     
     [Fact]    
-    public async Task GetAllRoomsApi_ReturnsNotFound()
+    public async Task GetAllHotelsApi_ReturnsNotFound()
     {
         await using var application = new WebApiApplication();
         application.CreatePostgresDbContext();
 
         var client = application.CreateClient();
-        var result = await client.GetAsync("/rooms");
+        var result = await client.GetAsync("/hotels");
 
         Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
     }

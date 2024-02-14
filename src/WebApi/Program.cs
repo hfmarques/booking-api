@@ -3,6 +3,7 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
+using WebApi.Apis.Hotel;
 using WebApi.Apis.Room;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -63,6 +64,7 @@ var app = builder.Build();
 app.MapHealthChecks("/health").AllowAnonymous();
 
 app.AddApisFromRooms();
+app.AddApisFromHotels();
 
 app.UseSwagger();
 app.UseSwaggerUI();
