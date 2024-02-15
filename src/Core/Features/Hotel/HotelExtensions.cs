@@ -1,3 +1,5 @@
+using Core.Domain.Dtos.Hotel;
+using Core.Features.Hotel.Commands;
 using Core.Features.Hotel.Queries;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,6 +11,9 @@ namespace Core.Features.Hotel
         {
             services.AddTransient<IGetHotels, GetHotels>();
             services.AddTransient<IGetHotelById, GetHotelById>();
+
+            services.AddTransient<IAddHotel, AddHotel>();
+            services.AddTransient<IUpdateHotel, UpdateHotel>();
         }
     }
 }

@@ -8,13 +8,13 @@ public class CommandRepository<T>(DbContext context) : ICommandRepository<T>
     where T : DatabaseEntity
 {
 
-    public async Task InsertAsync(T entity)
+    public async Task AddAsync(T entity)
     {
         await context.AddAsync(entity);
         await context.SaveChangesAsync();
     }
 
-    public async Task InsertRangeAsync(IEnumerable<T> entities)
+    public async Task AddRangeAsync(IEnumerable<T> entities)
     {
         await context.AddRangeAsync(entities);
         await context.SaveChangesAsync();

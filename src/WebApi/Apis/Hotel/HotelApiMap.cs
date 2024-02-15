@@ -1,4 +1,5 @@
-﻿using WebApi.Apis.Hotel.Queries;
+﻿using WebApi.Apis.Hotel.Commands;
+using WebApi.Apis.Hotel.Queries;
 
 namespace WebApi.Apis.Hotel;
 
@@ -11,5 +12,8 @@ public static class HotelApiMap
 
         app.MapGetHotelsApi(group);
         app.MapGetHotelByIdApi(group);
+        
+        app.MapPostHotelApi(group);
+        app.MapPutHotelApi(group);
     }
 }
