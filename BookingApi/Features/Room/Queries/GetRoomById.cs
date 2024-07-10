@@ -1,6 +1,6 @@
 ﻿using Data;
 
-namespace BookingApi.Features.Customer.Queries;
+namespace BookingApi.Features.Room.Queries;
 
 public class GetRoomById
 {

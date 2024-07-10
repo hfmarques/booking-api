@@ -8,5 +8,9 @@ public class RoomConfiguration : IEntityTypeConfiguration<Room>
 {
     public void Configure(EntityTypeBuilder<Room> builder)
     {
+        builder
+            .Property(e => e.StatusId)
+            .HasConversion<int>();
+        builder.HasOne(x => x.Status).WithMany().HasForeignKey(x => x.StatusId);
     }
 }

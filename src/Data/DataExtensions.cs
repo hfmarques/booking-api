@@ -1,5 +1,6 @@
 ﻿using Core.Domain.Entities;
 using Core.Repositories;
+using Data.Interceptors;
 using Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

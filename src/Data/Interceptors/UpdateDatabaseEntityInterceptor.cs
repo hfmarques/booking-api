@@ -2,7 +2,7 @@ using Core.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace Data;
+namespace Data.Interceptors;
 
 internal sealed class UpdateDatabaseEntityInterceptor : SaveChangesInterceptor
 {
@@ -23,6 +23,12 @@ internal sealed class UpdateDatabaseEntityInterceptor : SaveChangesInterceptor
             else if (entity.State is EntityState.Modified)
             {
                 entity.Property(nameof(DatabaseEntity.UpdatedAt)).CurrentValue = utcNow;
+            }
+            else if (entity.State is EntityState.Deleted)
+            {
+                entity.Property(nameof(DatabaseEntity.IsDeleted)).CurrentValue = true;
+                entity.Property(nameof(DatabaseEntity.DeletedAt)).CurrentValue = DateTime.UtcNow;
+                entity.State = EntityState.Modified;
             }
         }
 

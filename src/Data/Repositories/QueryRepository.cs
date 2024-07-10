@@ -9,7 +9,7 @@ public class QueryRepository<T>(DbContext context) : IQueryRepository<T> where T
 {
     public async Task<IEnumerable<T>> GetAllAsync()
     {
-        return await context.Set<T>().ToListAsync();
+        return await context.Set<T>().Where(x => !x.IsDeleted).ToListAsync();
     }
     public async Task<T?> GetByIdAsync(long id)
     {
@@ -17,10 +17,10 @@ public class QueryRepository<T>(DbContext context) : IQueryRepository<T> where T
     }
     public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
     {
-        return await context.Set<T>().Where(predicate).ToListAsync();
+        return await context.Set<T>().Where(x => !x.IsDeleted).Where(predicate).ToListAsync();
     }
     public async Task<T?> FindSingleOrDefaultAsync(Expression<Func<T, bool>> predicate)
     {
-        return await context.Set<T>().Where(predicate).SingleOrDefaultAsync();
+        return await context.Set<T>().Where(x => !x.IsDeleted).Where(predicate).SingleOrDefaultAsync();
     }
 }

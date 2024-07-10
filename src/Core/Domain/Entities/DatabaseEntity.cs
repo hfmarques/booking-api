@@ -1,8 +1,12 @@
+using Core.Domain.Enums;
+
 namespace Core.Domain.Entities;
 
-public class DatabaseEntity
+public abstract class DatabaseEntity
 {
-    public long Id { get; set; }
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
-    public DateTime UpdatedAt { get; set; } = DateTime.Now;
+    public long Id { get; set; } = 0;
+    public DateTime? CreatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
+    public bool IsDeleted { get; set; } = false;
+    public DateTime? DeletedAt { get; set; }
 }
