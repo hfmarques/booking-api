@@ -1,5 +1,6 @@
 ﻿using Architecture.Project.FileStorage;
 using Architecture.Project.SqsMessageBus;
+using Core;
 using Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +18,8 @@ public static class ServiceConfiguration
             connectionString = "";
 
         builder.Services.AddServicesFromData(connectionString);
-
+        builder.Services.AddServicesFromCore();
+        
         builder.Services.AddServicesFromFileStorage(
             builder.Environment.IsProduction(), 
             builder.Configuration["AWS:S3:ServiceUrl"] ?? "");

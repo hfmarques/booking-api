@@ -24,11 +24,11 @@ using var scope = app.Services.CreateScope();
 var db = scope.ServiceProvider.GetRequiredService<PostgresDbContext>();
 if (!db.Database.IsInMemory())
 {
-#if !DEBUG
+// #if !DEBUG
     app.Logger.LogInformation("Initializing migrations...");
     await db.Database.MigrateAsync(); // apply the migrations
     app.Logger.LogInformation("Migrations Completed");
-#endif
+// #endif
 }
 
 app.MapHealthChecks("/health").AllowAnonymous();
