@@ -1,70 +1,41 @@
-using Core;
+using Architecture.Ports;
 using Data;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
-using Serilog.Events;
 using WebApi.Apis.Hotel;
 using WebApi.Apis.Room;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddEnvironmentVariables();
+builder.ConfigureProjectSettings();
 
-if (builder.Environment.IsDevelopment())
-{
-    builder.Host.UseSerilog((_, _, configuration) =>
-    {
-        configuration
-            .MinimumLevel.Information()
-            .WriteTo.Console()
-            .Enrich.WithProperty("App", "booking-webapi")
-            .Enrich.FromLogContext();
-    });
-}
-else
-{
-    builder.Host.UseSerilog((context, _, configuration) =>
-    {
-        configuration
-            .MinimumLevel.Information()
-            .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
-            .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-            .WriteTo.Console()
-            .Enrich.WithProperty("App", "booking-webapi")
-            .Enrich.WithProperty("ContainerId", Environment.GetEnvironmentVariable("HOSTNAME") ?? string.Empty)
-            .Enrich.WithProperty("Environment",
-                Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? string.Empty)
-            .Enrich.FromLogContext();
-    });
-}
+builder.ConfigureSerilog("webapi");
 
-var connectionString = builder.Configuration.GetConnectionString("Postgres");
-if (string.IsNullOrWhiteSpace(connectionString))
-    connectionString = "";
+builder.ConfigureOpenTelemetry();
 
-builder.Services.AddServicesFromData(connectionString);
-builder.Services.AddServicesFromCore();
-
-builder.Services.AddHealthChecks();
+builder.ConfigureServicesFromProject();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c => { });
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// using var scope = app.Services.CreateScope();
-// var db = scope.ServiceProvider.GetRequiredService<PostgresDbContext>();
-// if (!db.Database.IsInMemory())
-// {
-//     app.Logger.LogInformation("Initializing migrations...");
-//     await db.Database.MigrateAsync(); // apply the migrations
-//     app.Logger.LogInformation("Migrations Completed");
-// }
+using var scope = app.Services.CreateScope();
+var db = scope.ServiceProvider.GetRequiredService<PostgresDbContext>();
+if (!db.Database.IsInMemory())
+{
+#if !DEBUG
+    app.Logger.LogInformation("Initializing migrations...");
+    await db.Database.MigrateAsync(); // apply the migrations
+    app.Logger.LogInformation("Migrations Completed");
+#endif
+}
 
 app.MapHealthChecks("/health").AllowAnonymous();
-
-app.AddApisFromRooms();
-app.AddApisFromHotels();
+app.MapHealthChecks("/alive", new HealthCheckOptions
+{
+    Predicate = r => r.Tags.Contains("live")
+});
 
 app.UseSwagger();
 app.UseSwaggerUI();
@@ -72,6 +43,9 @@ if (app.Environment.IsDevelopment())
 {
     app.Map("/", () => Results.Redirect("/swagger"));
 }
+
+app.AddApisFromHotels();
+app.AddApisFromRooms();
 
 app.Logger.LogInformation("WebApi Published...");
 
