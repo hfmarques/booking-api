@@ -1,5 +1,4 @@
-﻿using BookingApi.Features.Customer.Queries;
-using BookingApi.Features.Room.Queries;
+﻿using BookingApi.Features.Room.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingApi.Features.Room;

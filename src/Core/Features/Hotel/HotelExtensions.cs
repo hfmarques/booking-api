@@ -1,4 +1,3 @@
-using Core.Domain.Dtos.Hotel;
 using Core.Features.Hotel.Commands;
 using Core.Features.Hotel.Queries;
 using Microsoft.Extensions.DependencyInjection;

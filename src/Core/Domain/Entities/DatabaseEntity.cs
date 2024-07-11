@@ -1,5 +1,3 @@
-using Core.Domain.Enums;
-
 namespace Core.Domain.Entities;
 
 public abstract class DatabaseEntity
@@ -9,4 +7,5 @@ public abstract class DatabaseEntity
     public DateTime? UpdatedAt { get; set; }
     public bool IsDeleted { get; set; } = false;
     public DateTime? DeletedAt { get; set; }
+    public Guid CorrelationId { get; set; }
 }

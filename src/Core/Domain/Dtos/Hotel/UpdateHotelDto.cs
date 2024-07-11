@@ -1,5 +1,3 @@
-using Core.Domain.Dtos.Room;
-
 namespace Core.Domain.Dtos.Hotel;
 
 public class UpdateHotelDto

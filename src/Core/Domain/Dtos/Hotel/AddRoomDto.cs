@@ -1,10 +1,9 @@
 using Core.Domain.Enums;
 
-namespace Core.Domain.Dtos.Room;
+namespace Core.Domain.Dtos.Hotel;
 
-public class AddRoomDto
+public class AddHotelRoomDto
 {
     public required int Number { get; set; }
-    public required long HotelId { get; set; }
     public RoomStatusId? StatusId { get; set; }
 }

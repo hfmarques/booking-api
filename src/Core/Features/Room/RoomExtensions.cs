@@ -1,3 +1,4 @@
+using Core.Features.Room.Commands;
 using Core.Features.Room.Queries;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,6 +10,8 @@ namespace Core.Features.Room
         {
             services.AddTransient<IGetRooms, GetRooms>();
             services.AddTransient<IGetRoomById, GetRoomById>();
+            services.AddTransient<IAddRoom, AddRoom>();
+            services.AddTransient<IUpdateRoom, UpdateRoom>();
         }
     }
 }

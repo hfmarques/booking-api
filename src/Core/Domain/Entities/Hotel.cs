@@ -1,5 +1,3 @@
-using Core.Domain.Enums;
-
 namespace Core.Domain.Entities;
 
 public class Hotel : DatabaseEntity

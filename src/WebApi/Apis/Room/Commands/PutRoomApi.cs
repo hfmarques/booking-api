@@ -1,29 +1,29 @@
-﻿using Core.Domain.Dtos.Hotel;
-using Core.Features.Hotel.Commands;
-using Core.Features.Hotel.Queries;
+﻿using Core.Domain.Dtos.Room;
+using Core.Features.Room.Commands;
+using Core.Features.Room.Queries;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Apis.Hotel.Commands;
+namespace WebApi.Apis.Room.Commands;
 
-public static class PutHotelApi
+public static class PutRoomApi
 {
-    public static void MapPutHotelApi(
+    public static void MapPutRoomApi(
         this IEndpointRouteBuilder routes,
         RouteGroupBuilder group)
     {
         group.MapPut("/id/{id:long}",
             async (
-                [FromServices] IUpdateHotel updateHotel,
-                [FromServices] ILogger<IGetHotels> logger,
+                [FromServices] IUpdateRoom updateRoom,
+                [FromServices] ILogger<IGetRooms> logger,
                 long id,
-                [FromBody] UpdateHotelDto dto) =>
+                [FromBody] UpdateRoomDto dto) =>
             {
                 try
                 {
                     if (id != dto.Id)
-                        return Results.BadRequest("Hotel id must be equal");
+                        return Results.BadRequest("Room id must be equal");
                     
-                    await updateHotel.Handle(dto);
+                    await updateRoom.Handle(dto);
 
                     return Results.NoContent();
                 }
@@ -35,7 +35,7 @@ public static class PutHotelApi
                 catch (Exception e)
                 {
                     logger.LogError("{Exception}", e.ToString());
-                    return Results.BadRequest("There was an error updating the hotel");
+                    return Results.BadRequest("There was an error updating the room");
                 }
             });
     }

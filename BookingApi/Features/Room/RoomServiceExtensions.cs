@@ -1,4 +1,3 @@
-using BookingApi.Features.Customer.Queries;
 using BookingApi.Features.Room.Queries;
 
 namespace BookingApi.Features.Room

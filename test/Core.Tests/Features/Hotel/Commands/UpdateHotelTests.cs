@@ -1,9 +1,8 @@
 using Core.Domain.Dtos.Hotel;
-using Core.Domain.Dtos.Room;
-using Core.Domain.Entities;
 using Core.Features.Hotel.Commands;
 using Core.Features.Hotel.Queries;
 using Core.Repositories;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace Core.Tests.Features.Hotel.Commands;
@@ -20,10 +19,11 @@ public class UpdateHotelTests
 
     private readonly Mock<ICommandRepository<Domain.Entities.Hotel>> commandRepository = new();
     private readonly Mock<IGetHotelById> getHotelById = new();
+    private readonly Mock<ILogger<UpdateHotel>> logger = new();
 
     public UpdateHotelTests()
     {
-        addHotel = new(commandRepository.Object, getHotelById.Object);
+        addHotel = new(commandRepository.Object, getHotelById.Object, logger.Object);
 
         getHotelById.Setup(x => x.Handle(It.IsAny<long>())).ReturnsAsync(
             new Domain.Entities.Hotel

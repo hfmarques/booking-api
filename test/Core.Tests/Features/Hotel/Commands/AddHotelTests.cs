@@ -1,7 +1,7 @@
 using Core.Domain.Dtos.Hotel;
-using Core.Domain.Dtos.Room;
 using Core.Features.Hotel.Commands;
 using Core.Repositories;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace Core.Tests.Features.Hotel.Commands;
@@ -22,10 +22,11 @@ public class AddHotelTests
     };
 
     private readonly Mock<ICommandRepository<Domain.Entities.Hotel>> commandRepository = new();
+    private readonly Mock<ILogger<AddHotel>> logger = new();
 
     public AddHotelTests()
     {
-        addHotel = new(commandRepository.Object);
+        addHotel = new(commandRepository.Object, logger.Object);
     }
     
     [Fact]
@@ -39,8 +40,10 @@ public class AddHotelTests
     [Fact]
     public async Task AddHotel_DtoIsNull_ThrowsArgumentException()
     {
-        await Assert.ThrowsAsync<ArgumentNullException>(
+        var e = await Assert.ThrowsAsync<ArgumentNullException>(
             () => addHotel.Handle(null));
+        
+        Assert.Contains("dto", e.Message);
     }
     
     [Fact]
@@ -50,9 +53,11 @@ public class AddHotelTests
         dto.Name = null;
 
         // Act & Assert
-        await Assert.ThrowsAsync<ArgumentNullException>(
+        var e = await Assert.ThrowsAsync<ArgumentNullException>(
             () => addHotel.Handle(dto)
-        ); 
+        );
+        
+        Assert.Contains("Name", e.Message);
     }
     
     [Fact]
@@ -62,9 +67,11 @@ public class AddHotelTests
         dto.Rooms = null;
 
         // Act & Assert
-        await Assert.ThrowsAsync<ArgumentNullException>(
+        var e = await Assert.ThrowsAsync<ArgumentNullException>(
             () => addHotel.Handle(dto)
-        );  
+        );
+        
+        Assert.Contains("Rooms", e.Message);
     }
     
     [Fact]
@@ -73,7 +80,9 @@ public class AddHotelTests
         // Arrange
         dto.Rooms = [];
         // Act & Assert
-        await Assert.ThrowsAsync<ArgumentException>(() => addHotel.Handle(dto));
+        var e = await Assert.ThrowsAsync<ArgumentException>(() => addHotel.Handle(dto));
+        
+        Assert.Contains("The hotel needs at least one room", e.Message);
     }
     
     [Fact]
@@ -96,6 +105,8 @@ public class AddHotelTests
             }
         };
         // Act & Assert
-        await Assert.ThrowsAsync<ArgumentException>(() => addHotel.Handle(dto));
+        var e = await Assert.ThrowsAsync<ArgumentException>(() => addHotel.Handle(dto));
+        
+        Assert.Contains("Room numbers should not repeat", e.Message);
     }
 }

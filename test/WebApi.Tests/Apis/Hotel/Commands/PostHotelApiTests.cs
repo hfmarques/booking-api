@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using Core.Domain.Dtos.Hotel;
-using Microsoft.AspNetCore.Http;
 
 namespace WebApi.Tests.Apis.Hotel.Commands;
 
