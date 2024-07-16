@@ -1,4 +1,5 @@
-﻿using WebApi.Apis.Customer.Queries;
+﻿using WebApi.Apis.Customer.Commands;
+using WebApi.Apis.Customer.Queries;
 
 namespace WebApi.Apis.Customer;
 
@@ -11,8 +12,7 @@ public static class CustomerApiMap
 
         app.MapGetCustomersApi(group);
         app.MapGetCustomerByIdApi(group);
-        
-        // app.MapPostCustomerApi(group);
-        // app.MapPutCustomerApi(group);
+        app.MapPostCustomerApi(group);
+        app.MapPutCustomerApi(group);
     }
 }

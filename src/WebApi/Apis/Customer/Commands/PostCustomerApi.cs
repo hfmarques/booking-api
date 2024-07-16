@@ -1,27 +1,26 @@
-﻿using Core.Domain.Dtos.Hotel;
-using Core.Features.Hotel.Commands;
-using Core.Features.Hotel.Queries;
+﻿using Core.Domain.Dtos.Customer;
+using Core.Features.Customer.Commands;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Apis.Hotel.Commands;
+namespace WebApi.Apis.Customer.Commands;
 
-public static class PostHotelApi
+public static class PostCustomerApi
 {
-    public static void MapPostHotelApi(
+    public static void MapPostCustomerApi(
         this IEndpointRouteBuilder routes,
         RouteGroupBuilder group)
     {
         group.MapPost("/",
             async (
-                [FromServices] IAddHotel addHotel,
-                [FromServices] ILogger<IAddHotel> logger,
-                [FromBody] AddHotelDto dto) =>
+                [FromServices] IAddCustomer addCustomer,
+                [FromServices] ILogger<IAddCustomer> logger,
+                [FromBody] AddCustomerDto dto) =>
             {
                 try
                 {
-                    var hotel = await addHotel.Handle(dto);
+                    var customer = await addCustomer.Handle(dto);
 
-                    return Results.Created($"hotels/id/{hotel.Id}", hotel);
+                    return Results.Created($"customers/id/{customer.Id}", customer);
                 }
                 catch (ArgumentException e)
                 {
@@ -31,7 +30,7 @@ public static class PostHotelApi
                 catch (Exception e)
                 {
                     logger.LogError("{Exception}", e.ToString());
-                    return Results.BadRequest("There was an error adding the hotel");
+                    return Results.BadRequest("There was an error adding the customer");
                 }
             });
     }

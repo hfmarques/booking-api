@@ -14,7 +14,7 @@ public static class PostRoomApi
         group.MapPost("/",
             async (
                 [FromServices] IAddRoom addRoom,
-                [FromServices] ILogger<IGetRooms> logger,
+                [FromServices] ILogger<IAddRoom> logger,
                 [FromBody] AddRoomDto dto) =>
             {
                 try
@@ -25,7 +25,7 @@ public static class PostRoomApi
                 }
                 catch (ArgumentException e)
                 {
-                    logger.LogError("{Exception}", e.ToString());
+                    logger.LogWarning("{Exception}", e.ToString());
                     return Results.BadRequest(e.Message);
                 }
                 catch (Exception e)

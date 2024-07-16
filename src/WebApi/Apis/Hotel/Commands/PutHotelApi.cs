@@ -14,7 +14,7 @@ public static class PutHotelApi
         group.MapPut("/id/{id:long}",
             async (
                 [FromServices] IUpdateHotel updateHotel,
-                [FromServices] ILogger<IGetHotels> logger,
+                [FromServices] ILogger<IUpdateHotel> logger,
                 long id,
                 [FromBody] UpdateHotelDto dto) =>
             {
@@ -29,7 +29,7 @@ public static class PutHotelApi
                 }
                 catch (ArgumentException e)
                 {
-                    logger.LogError("{Exception}", e.ToString());
+                    logger.LogWarning("{Exception}", e.ToString());
                     return Results.BadRequest(e.Message);
                 }
                 catch (Exception e)

@@ -1,29 +1,29 @@
-﻿using Core.Domain.Dtos.Room;
-using Core.Features.Room.Commands;
-using Core.Features.Room.Queries;
+﻿using Core.Domain.Dtos.Customer;
+using Core.Features.Customer.Commands;
+using Core.Features.Customer.Queries;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Apis.Room.Commands;
+namespace WebApi.Apis.Customer.Commands;
 
-public static class PutRoomApi
+public static class PutCustomerApi
 {
-    public static void MapPutRoomApi(
+    public static void MapPutCustomerApi(
         this IEndpointRouteBuilder routes,
         RouteGroupBuilder group)
     {
         group.MapPut("/id/{id:long}",
             async (
-                [FromServices] IUpdateRoom updateRoom,
-                [FromServices] ILogger<IUpdateRoom> logger,
+                [FromServices] IUpdateCustomer updateCustomer,
+                [FromServices] ILogger<IUpdateCustomer> logger,
                 long id,
-                [FromBody] UpdateRoomDto dto) =>
+                [FromBody] UpdateCustomerDto dto) =>
             {
                 try
                 {
                     if (id != dto.Id)
-                        return Results.BadRequest("Room id must be equal");
+                        return Results.BadRequest("Customer id must be equal");
                     
-                    await updateRoom.Handle(dto);
+                    await updateCustomer.Handle(dto);
 
                     return Results.NoContent();
                 }
@@ -35,7 +35,7 @@ public static class PutRoomApi
                 catch (Exception e)
                 {
                     logger.LogError("{Exception}", e.ToString());
-                    return Results.BadRequest("There was an error updating the room");
+                    return Results.BadRequest("There was an error updating the customer");
                 }
             });
     }

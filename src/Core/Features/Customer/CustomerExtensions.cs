@@ -1,3 +1,4 @@
+using Core.Features.Customer.Commands;
 using Core.Features.Customer.Queries;
 using Core.Features.Hotel.Commands;
 using Core.Features.Hotel.Queries;
@@ -11,6 +12,8 @@ namespace Core.Features.Customer
         {
             services.AddTransient<IGetCustomers, GetCustomers>();
             services.AddTransient<IGetCustomerById, GetCustomerById>();
+            services.AddTransient<IAddCustomer, AddCustomer>();
+            services.AddTransient<IUpdateCustomer, UpdateCustomer>();
         }
     }
 }
