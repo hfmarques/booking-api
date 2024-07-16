@@ -24,7 +24,7 @@ public static class GetHotelByIdApi
                 catch (Exception e)
                 {
                     logger.LogError("{Exception}", e.ToString());
-                    return Results.BadRequest("There was an error getting room");
+                    return Results.BadRequest("There was an error getting hotel");
                 }
             });
     }

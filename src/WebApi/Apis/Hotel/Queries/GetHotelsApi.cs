@@ -18,7 +18,7 @@ public static class GetHotelsApi
                 {
                     var hotels = await getHotels.Handle();
 
-                    return !hotels.Any() ? Results.NotFound(new List<Core.Domain.Entities.Hotel>()) : Results.Ok(hotels);
+                    return hotels.Count == 0 ? Results.NotFound(new List<Core.Domain.Entities.Hotel>()) : Results.Ok(hotels);
                 }
                 catch (Exception e)
                 {
