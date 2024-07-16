@@ -27,5 +27,9 @@ public static class DataExtensions
         services.AddTransient<IQueryRepository<Customer>, QueryRepository<Customer>>();
         services.AddTransient<ICommandRepository<Customer>, CommandRepository<Customer>>();
         services.AddTransient<ICustomerQueryRepository, CustomerQueryRepository>();
+        
+        services.AddTransient<IQueryRepository<Booking>, QueryRepository<Booking>>();
+        services.AddTransient<ICommandRepository<Booking>, CommandRepository<Booking>>();
+        services.AddTransient<IBookingQueryRepository, BookingQueryRepository>();
     }
 }

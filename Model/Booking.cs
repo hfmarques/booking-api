@@ -2,7 +2,6 @@
 
 namespace Model;
 
-#nullable disable
 public class Booking
 {
     public long Id { get; set; }
