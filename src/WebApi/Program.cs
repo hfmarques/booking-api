@@ -2,6 +2,7 @@ using Architecture.Ports;
 using Data;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
+using WebApi.Apis.Bookings;
 using WebApi.Apis.Customer;
 using WebApi.Apis.Hotel;
 using WebApi.Apis.Room;
@@ -48,6 +49,7 @@ if (app.Environment.IsDevelopment())
 app.AddApisFromHotels();
 app.AddApisFromRooms();
 app.AddApisFromCustomers();
+app.AddApisFromBookings();
 
 app.Logger.LogInformation("WebApi Published...");
 

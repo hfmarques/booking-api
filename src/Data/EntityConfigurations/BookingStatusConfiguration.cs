@@ -9,7 +9,6 @@ namespace Data.EntityConfigurations;
 
 public class BookingStatusConfiguration : IEntityTypeConfiguration<BookingStatus>
 {
-
     public void Configure(EntityTypeBuilder<BookingStatus> builder)
     {
         builder

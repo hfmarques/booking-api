@@ -15,24 +15,24 @@ public class PutCustomerApiTests
 
         var validCustomer = GetValidCustomerToTest.Handle();
         
-        await db.AddAsync(validCustomer);
+        await db.AddRangeAsync(validCustomer);
         await db.SaveChangesAsync();
 
         var dto = new UpdateCustomerDto()
         {
-            Id = validCustomer.Id,
+            Id = validCustomer.First().Id,
             Name = "Name 1",
             Phone = "Phone 1"
         };
 
         var clientPostCustomer = application.CreateClient();
-        await clientPostCustomer.PutAsJsonAsync($"customers/id/{validCustomer.Id}", dto);
+        await clientPostCustomer.PutAsJsonAsync($"customers/id/{validCustomer.First().Id}", dto);
 
         var clientGetCustomer = application.CreateClient();
-        var customer = await clientGetCustomer.GetFromJsonAsync<Core.Domain.Entities.Customer>($"/customers/id/{validCustomer.Id}");
+        var customer = await clientGetCustomer.GetFromJsonAsync<Core.Domain.Entities.Customer>($"/customers/id/{validCustomer.First().Id}");
 
         Assert.NotNull(customer);
-        Assert.Equal(validCustomer.Id, customer.Id);
+        Assert.Equal(validCustomer.First().Id, customer.Id);
         Assert.Equal("Name 1", customer.Name);
         Assert.Equal("Phone 1", customer.Phone);
     }

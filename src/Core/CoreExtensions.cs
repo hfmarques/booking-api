@@ -1,3 +1,4 @@
+using Core.Features.Booking;
 using Core.Features.Customer;
 using Core.Features.Hotel;
 using Core.Features.Room;
@@ -12,5 +13,6 @@ public static class CoreExtensions
         services.AddServicesFromRoom();
         services.AddServicesFromHotel();
         services.AddServicesFromCustomer();
+        services.AddServicesFromBooking();        
     }
 }

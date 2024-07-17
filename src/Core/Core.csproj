@@ -17,4 +17,8 @@
       </Reference>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Features\Booking\Commands\" />
+    </ItemGroup>
+
 </Project>

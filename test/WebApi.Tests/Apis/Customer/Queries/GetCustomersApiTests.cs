@@ -11,9 +11,9 @@ public class GetCustomersApiTests
         await using var application = new WebApiApplication();
         var db = application.CreatePostgresDbContext();
 
-        var customer = GetValidCustomerToTest.Handle();
+        var customers = GetValidCustomerToTest.Handle();
         
-        await db.Set<Core.Domain.Entities.Customer>().AddAsync(customer);
+        await db.Set<Core.Domain.Entities.Customer>().AddRangeAsync(customers);
         await db.SaveChangesAsync();
         
         var client = application.CreateClient();
@@ -21,8 +21,7 @@ public class GetCustomersApiTests
 
         Assert.NotNull(result);
         Assert.NotEmpty(result);
-        Assert.Single(result);
-        Assert.Equal(customer.Name, result.First().Name);
+        Assert.Equal(customers.Count, result.Count);
     }
     
     [Fact]    

@@ -11,17 +11,17 @@ public class GetCustomerByIdApiTests
         await using var application = new WebApiApplication();
         var db = application.CreatePostgresDbContext();
 
-        var customer = GetValidCustomerToTest.Handle();
+        var customers = GetValidCustomerToTest.Handle();
         
-        await db.Set<Core.Domain.Entities.Customer>().AddAsync(customer);
+        await db.Set<Core.Domain.Entities.Customer>().AddRangeAsync(customers);
         await db.SaveChangesAsync();
         
         var client = application.CreateClient();
-        var result = await client.GetFromJsonAsync<Core.Domain.Entities.Customer>($"/customers/id/{customer.Id}");
+        var result = await client.GetFromJsonAsync<Core.Domain.Entities.Customer>($"/customers/id/{customers.First().Id}");
 
         Assert.NotNull(result);
-        Assert.Equal(customer.Id, result.Id);
-        Assert.Equal(customer.Name, result.Name);
+        Assert.Equal(customers.First().Id, result.Id);
+        Assert.Equal(customers.First().Name, result.Name);
     }
     
     [Fact]    
@@ -30,9 +30,9 @@ public class GetCustomerByIdApiTests
         await using var application = new WebApiApplication();
         var db = application.CreatePostgresDbContext();
 
-        var customer = GetValidCustomerToTest.Handle();
+        var customers = GetValidCustomerToTest.Handle();
         
-        await db.Set<Core.Domain.Entities.Customer>().AddAsync(customer);
+        await db.Set<Core.Domain.Entities.Customer>().AddRangeAsync(customers);
         await db.SaveChangesAsync();
         
         var client = application.CreateClient();
