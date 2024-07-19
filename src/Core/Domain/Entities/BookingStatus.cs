@@ -1,4 +1,4 @@
-﻿using Model.Enum;
+﻿using Core.Domain.Enums;
 
 namespace Core.Domain.Entities;
 

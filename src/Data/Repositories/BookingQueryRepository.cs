@@ -1,7 +1,7 @@
 using Core.Domain.Entities;
+using Core.Domain.Enums;
 using Core.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Model.Enum;
 
 namespace Data.Repositories;
 

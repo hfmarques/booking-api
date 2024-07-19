@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Model.Enum;
+namespace Core.Domain.Enums;
 
 public enum BookingStatusId
 {

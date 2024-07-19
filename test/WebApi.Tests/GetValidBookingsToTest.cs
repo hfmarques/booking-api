@@ -1,6 +1,6 @@
 ﻿using Bogus;
 using Core.Domain.Entities;
-using Model.Enum;
+using Core.Domain.Enums;
 
 namespace WebApi.Tests;
 

@@ -32,7 +32,7 @@ public class UpdateHotel(
 
         hotel.Name = dto.Name;
 
-        await commandRepository.UpdateAsync(hotel);
+        await commandRepository.UpdateAsync();
         
         logger.LogInformation("Hotel updated");
     }

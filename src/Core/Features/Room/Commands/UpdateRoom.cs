@@ -30,7 +30,7 @@ public class UpdateRoom(
 
         room.StatusId = dto.StatusId;
         
-        await commandRepository.UpdateAsync(room);
+        await commandRepository.UpdateAsync();
 
         logger.LogInformation("Room updated");
         

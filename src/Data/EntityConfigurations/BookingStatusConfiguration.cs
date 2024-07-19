@@ -3,7 +3,6 @@ using Core.Domain.Enums;
 using Core.Tools;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Model.Enum;
 
 namespace Data.EntityConfigurations;
 

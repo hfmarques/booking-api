@@ -35,7 +35,7 @@ public class UpdateCustomer(
         customer.Phone = dto.Phone;
         customer.Address = dto.Address;
         
-        await commandRepository.UpdateAsync(customer);
+        await commandRepository.UpdateAsync();
 
         logger.LogInformation("Customer updated");
         

@@ -20,7 +20,7 @@ public class CommandRepository<T>(DbContext context) : ICommandRepository<T>
         await context.SaveChangesAsync();
     }
 
-    public async Task UpdateAsync(T entity)
+    public async Task UpdateAsync()
     {
         await context.SaveChangesAsync();
     }

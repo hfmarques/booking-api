@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
-using Model.Enum;
+using Core.Domain.Enums;
 
 namespace WebApi.Tests.Apis.Bookings.Queries;
 
