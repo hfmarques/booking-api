@@ -46,15 +46,15 @@ public class BookRoomTests
     }
 
     [Fact]
-    public async Task BookRoom_BookingNotAvailable_ReturnsNull()
+    public async Task BookRoom_BookingNotAvailable_ThrowException()
     {
         verifyBookingAvailability.Setup(x => x.Handle(
                 It.IsAny<Booking>(), It.IsAny<IReadOnlyCollection<Booking>>()))
             .ReturnsAsync(false);
 
-        var result = await bookRoom.Handle(dto);
+        var e = await Assert.ThrowsAsync<ArgumentException>(() => bookRoom.Handle(dto));
         
-        Assert.Null(result);
+        Assert.Contains("date not available", e.Message);
     }
     
     [Fact]

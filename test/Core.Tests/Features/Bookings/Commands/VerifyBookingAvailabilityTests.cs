@@ -110,7 +110,7 @@ public class VerifyBookingAvailabilityTests
         var e = await Assert.ThrowsAsync<ArgumentException>(() => 
             verifyBookingAvailability.Handle(newBooking, []));
         
-        Assert.Contains("The stay can't be longer than 3 days", e.Message);
+        Assert.Contains("can't stay longer than 3 days", e.Message);
     }
 
     [Fact]

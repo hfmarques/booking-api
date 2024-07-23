@@ -12,7 +12,7 @@ public class PutHotelApiTests
         await using var application = new WebApiApplication();
         var db = application.CreatePostgresDbContext();
 
-        var validHotel = GetValidHotelToTest.Handle();
+        var validHotel = GetValidHotelToTest.Handle(5);
         
         await db.Set<Core.Domain.Entities.Hotel>().AddAsync(validHotel);
         await db.SaveChangesAsync();

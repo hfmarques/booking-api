@@ -19,7 +19,7 @@ public class PostRoomApiTests
         
         var dto = new AddRoomDto
         {
-            Number = 101,
+            Number = 1,
             HotelId = hotel.Id
         };
 

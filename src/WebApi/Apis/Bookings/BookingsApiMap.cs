@@ -1,4 +1,5 @@
-﻿using WebApi.Apis.Bookings.Queries;
+﻿using WebApi.Apis.Bookings.Commands;
+using WebApi.Apis.Bookings.Queries;
 
 namespace WebApi.Apis.Bookings;
 
@@ -13,5 +14,6 @@ public static class BookingsApiMap
         app.MapGetBookingByIdApi(group);
         app.MapGetUpcomingBookingsApi(group);
         app.MapGetActiveBookingsByRoomIdApi(group);
+        app.MapPostBookingApi(group);
     }
 }

@@ -15,19 +15,11 @@ public class PostHotelApiTests
         var dto = new AddHotelDto
         {
             Name = "Test",
-            Rooms =
-            [
-                new()
-                {
-                    Number = 1
-                },
-                new()
-                {
-                    Number = 2
-                },
-            ]
+            Rooms = GetValidHotelToTest.Handle(50).Rooms.Select(x => new AddHotelRoomDto
+            {
+                Number = x.Number
+            }).ToList()
         };
-
 
         var clientPostHotel = application.CreateClient();
         var response = await clientPostHotel.PostAsJsonAsync("hotels", dto);
@@ -49,17 +41,10 @@ public class PostHotelApiTests
         var dto = new AddHotelDto
         {
             Name = "",
-            Rooms =
-            [
-                new()
-                {
-                    Number = 1
-                },
-                new()
-                {
-                    Number = 2
-                },
-            ]
+            Rooms = GetValidHotelToTest.Handle(1).Rooms.Select(x => new AddHotelRoomDto
+            {
+                Number = x.Number
+            }).ToList()
         };
 
 

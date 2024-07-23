@@ -31,9 +31,5 @@
     <ProjectReference Include="..\..\src\Data\Data.csproj" />
     <ProjectReference Include="..\..\src\WebApi\WebApi.csproj" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="Apis\Bookings\Commands\" />
-  </ItemGroup>
 
 </Project>

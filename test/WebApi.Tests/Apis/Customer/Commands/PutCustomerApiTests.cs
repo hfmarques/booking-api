@@ -13,7 +13,7 @@ public class PutCustomerApiTests
         await using var application = new WebApiApplication();
         var db = application.CreatePostgresDbContext();
 
-        var validCustomer = GetValidCustomerToTest.Handle();
+        var validCustomer = GetValidCustomerToTest.Handle(1);
         
         await db.AddRangeAsync(validCustomer);
         await db.SaveChangesAsync();

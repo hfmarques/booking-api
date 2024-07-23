@@ -10,24 +10,23 @@ public class PostCustomerApiTests
     public async Task PostCustomerApi_ReturnsCreated()
     {
         await using var application = new WebApiApplication();
-        var db = application.CreatePostgresDbContext();
+        application.CreatePostgresDbContext();
 
-        var dto = new AddCustomerDto
+        var dtos = GetValidCustomerToTest.Handle(20);
+
+        foreach (var dto in dtos)
         {
-            Name = "Test",
-            Phone = "0000123456498"
-        };
+            using var clientPostCustomer = application.CreateClient();
+            using var response = await clientPostCustomer.PostAsJsonAsync("customers", dto);
 
-        var clientPostCustomer = application.CreateClient();
-        var response = await clientPostCustomer.PostAsJsonAsync("customers", dto);
+            var clientGetCustomer = application.CreateClient();
+            var customer = await clientGetCustomer.GetFromJsonAsync<Core.Domain.Entities.Customer>(
+                response.Headers.Location);
 
-        var clientGetCustomer = application.CreateClient();
-        var customer = await clientGetCustomer.GetFromJsonAsync<Core.Domain.Entities.Customer>(
-            response.Headers.Location);
-
-        Assert.NotNull(customer);
-        Assert.Equal(dto.Name, customer.Name);
-        Assert.Equal(dto.Phone, customer.Phone);
+            Assert.NotNull(customer);
+            Assert.Equal(dto.Name, customer.Name);
+            Assert.Equal(dto.Phone, customer.Phone);
+        }
     }
 
     [Fact]

@@ -42,8 +42,8 @@ public class VerifyBookingAvailability(
         //the stay can’t be longer than 3 days
         if (booking.EndDate.Day - booking.StartDate.Day > 3)
         {
-            logger.LogWarning("The stay can't be longer than 3 days");
-            throw new ArgumentException("The stay can't be longer than 3 days");
+            logger.LogWarning("The customer can't stay longer than 3 days");
+            throw new ArgumentException("The customer can't stay longer than 3 days");
         }
 
         //can’t be reserved more than 30 days in advance.

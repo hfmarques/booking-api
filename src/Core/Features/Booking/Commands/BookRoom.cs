@@ -10,7 +10,7 @@ namespace Core.Features.Booking.Commands;
 
 public interface IBookRoom
 {
-    Task<Domain.Entities.Booking?> Handle(BookRoomDto dto);
+    Task<Domain.Entities.Booking> Handle(BookRoomDto dto);
 }
 public class BookRoom(
     IBookingQueryRepository queryRepository,
@@ -19,7 +19,7 @@ public class BookRoom(
     ILogger<BookRoom> logger
     ) : IBookRoom
 {
-    public async Task<Domain.Entities.Booking?> Handle(BookRoomDto dto)
+    public async Task<Domain.Entities.Booking> Handle(BookRoomDto dto)
     {
         ArgumentNullException.ThrowIfNull(dto);
         
@@ -44,7 +44,7 @@ public class BookRoom(
         if (!await verifyBookingAvailability.Handle(booking, existedBookings.ToImmutableList()))
         {
             logger.LogWarning("Booking date not available");
-            return null;
+            throw new ArgumentException("Booking date not available");
         }
         
         logger.LogInformation("Booking date available, saving into database");
