@@ -24,7 +24,7 @@ public class GetActiveBookingsByRoomIdApiTests
         await db.SaveChangesAsync();
         
         var client = application.CreateClient();
-        var result = await client.GetFromJsonAsync<List<Core.Domain.Entities.Booking>>($"/bookings/active/roomId/{bookings.First().RoomId}");
+        var result = await client.GetFromJsonAsync<List<Core.Domain.Entities.Booking>>($"/bookings/active/{bookings.First().Room!.Id}");
 
         Assert.NotNull(result);
         Assert.Equal(bookings.First().RoomId, result.First().RoomId);
@@ -39,7 +39,7 @@ public class GetActiveBookingsByRoomIdApiTests
         var db = application.CreatePostgresDbContext();
         
         var client = application.CreateClient();
-        var result = await client.GetAsync($"/bookings/active/roomId/{123}");
+        var result = await client.GetAsync($"/bookings/active/123");
 
         Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
     }

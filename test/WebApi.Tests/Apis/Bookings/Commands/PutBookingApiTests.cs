@@ -28,7 +28,7 @@ public class PutBookingApiTests
         await db.SaveChangesAsync();
 
         using var clientPostHotel = application.CreateClient();
-        var response = await clientPostHotel.PutAsJsonAsync("bookings", new UpdateBookingDto
+        var response = await clientPostHotel.PutAsJsonAsync($"bookings/{booking.Id}", new UpdateBookingDto
         {
             Id = booking.Id,
             StartDate = booking.StartDate,
@@ -40,7 +40,7 @@ public class PutBookingApiTests
         response.EnsureSuccessStatusCode();
         
         var clientGetHotel = application.CreateClient();
-        var bookingResponse = await clientGetHotel.GetFromJsonAsync<Core.Domain.Entities.Booking>($"bookings/id/{booking.Id}");
+        var bookingResponse = await clientGetHotel.GetFromJsonAsync<Core.Domain.Entities.Booking>($"bookings/{booking.Id}");
         
         Assert.NotNull(bookingResponse);
         Assert.Equal(booking.EndDate.AddDays(-1), bookingResponse.EndDate);
@@ -58,7 +58,7 @@ public class PutBookingApiTests
         var booking = GetValidBookingsToTest.Handle(hotelDto.Rooms, customersDto, 1).First();
 
         var clientPostHotel = application.CreateClient();
-        var response = await clientPostHotel.PutAsJsonAsync("bookings",  new UpdateBookingDto
+        var response = await clientPostHotel.PutAsJsonAsync("bookings/123",  new UpdateBookingDto
         {
             Id = booking.Id,
             StartDate = booking.StartDate,

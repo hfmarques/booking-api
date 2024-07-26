@@ -24,12 +24,12 @@ public class PutHotelApiTests
         };
 
         var clientPostHotel = application.CreateClient();
-        var response = await clientPostHotel.PutAsJsonAsync($"hotels/id/{dto.Id}", dto);
+        var response = await clientPostHotel.PutAsJsonAsync($"hotels/{dto.Id}", dto);
 
         response.EnsureSuccessStatusCode();
 
         var clientGetHotel = application.CreateClient();
-        var hotel = await clientGetHotel.GetFromJsonAsync<Core.Domain.Entities.Hotel>($"/hotels/id/{validHotel.Id}");
+        var hotel = await clientGetHotel.GetFromJsonAsync<Core.Domain.Entities.Hotel>($"/hotels/{validHotel.Id}");
 
         Assert.NotNull(hotel);
         Assert.Equal(dto.Name, hotel.Name);
@@ -48,7 +48,7 @@ public class PutHotelApiTests
         };
 
         var clientPostHotel = application.CreateClient();
-        var response = await clientPostHotel.PutAsJsonAsync($"hotels/id/{dto.Id}", dto);
+        var response = await clientPostHotel.PutAsJsonAsync($"hotels/{dto.Id}", dto);
 
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }

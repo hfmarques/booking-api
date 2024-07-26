@@ -17,7 +17,7 @@ public class GetHotelByIdApiTests
         await db.SaveChangesAsync();
         
         var client = application.CreateClient();
-        var result = await client.GetFromJsonAsync<Core.Domain.Entities.Hotel>($"/hotels/id/{hotel.Id}");
+        var result = await client.GetFromJsonAsync<Core.Domain.Entities.Hotel>($"/hotels/{hotel.Id}");
 
         Assert.NotNull(result);
         Assert.Equal(hotel.Id, result.Id);
@@ -36,7 +36,7 @@ public class GetHotelByIdApiTests
         await db.SaveChangesAsync();
         
         var client = application.CreateClient();
-        var result = await client.GetAsync($"/hotels/id/{123}");
+        var result = await client.GetAsync($"/hotels/{123}");
 
         Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
     }

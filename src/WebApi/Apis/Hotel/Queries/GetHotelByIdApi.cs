@@ -9,7 +9,7 @@ public static class GetHotelByIdApi
         this IEndpointRouteBuilder routes,
         RouteGroupBuilder group)
     {
-        group.MapGet("/id/{id:long}",
+        group.MapGet("/{id:long}",
             async (
                 [FromServices] IGetHotelById getHotelById,
                 [FromServices] ILogger<IGetHotelById> logger,

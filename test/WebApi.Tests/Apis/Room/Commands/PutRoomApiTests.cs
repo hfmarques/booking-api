@@ -28,12 +28,12 @@ public class PutRoomApiTests
         };
 
         var clientPostRoom = application.CreateClient();
-        var response = await clientPostRoom.PutAsJsonAsync($"rooms/id/{roomSaved.Id}", dto);
+        var response = await clientPostRoom.PutAsJsonAsync($"rooms/{roomSaved.Id}", dto);
         
         response.EnsureSuccessStatusCode();
 
         var clientGetRoom = application.CreateClient();
-        var room = await clientGetRoom.GetFromJsonAsync<Core.Domain.Entities.Room>($"/rooms/id/{roomSaved.Id}");
+        var room = await clientGetRoom.GetFromJsonAsync<Core.Domain.Entities.Room>($"/rooms/{roomSaved.Id}");
 
         Assert.NotNull(room);
         Assert.Equal(roomSaved.Id, room.Id);
@@ -53,7 +53,7 @@ public class PutRoomApiTests
         };
 
         var clientPostRoom = application.CreateClient();
-        var response = await clientPostRoom.PutAsJsonAsync($"rooms/id/{dto.Id}", dto);
+        var response = await clientPostRoom.PutAsJsonAsync($"rooms/{dto.Id}", dto);
 
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }

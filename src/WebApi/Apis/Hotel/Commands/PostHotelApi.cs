@@ -21,7 +21,7 @@ public static class PostHotelApi
                 {
                     var hotel = await addHotel.Handle(dto);
 
-                    return Results.Created($"hotels/id/{hotel.Id}", hotel);
+                    return Results.Created($"hotels/{hotel.Id}", hotel);
                 }
                 catch (ArgumentException e)
                 {

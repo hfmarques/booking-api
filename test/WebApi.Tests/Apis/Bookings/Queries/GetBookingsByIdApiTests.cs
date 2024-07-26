@@ -23,7 +23,7 @@ public class GetBookingsByIdApiTests
         await db.SaveChangesAsync();
         
         var client = application.CreateClient();
-        var result = await client.GetFromJsonAsync<Core.Domain.Entities.Booking>($"/bookings/id/{bookings.First().Id}");
+        var result = await client.GetFromJsonAsync<Core.Domain.Entities.Booking>($"/bookings/{bookings.First().Id}");
 
         Assert.NotNull(result);
         Assert.Equal(bookings.First().Id, result.Id);
@@ -36,7 +36,7 @@ public class GetBookingsByIdApiTests
         var db = application.CreatePostgresDbContext();
        
         var client = application.CreateClient();
-        var result = await client.GetAsync($"/bookings/id/{123}");
+        var result = await client.GetAsync($"/bookings/123");
 
         Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
     }

@@ -17,7 +17,7 @@ public class GetRoomByIdApiTests
         await db.SaveChangesAsync();
         
         var client = application.CreateClient();
-        var result = await client.GetFromJsonAsync<Core.Domain.Entities.Room>($"/rooms/id/{hotel.Rooms.First().Id}");
+        var result = await client.GetFromJsonAsync<Core.Domain.Entities.Room>($"/rooms/{hotel.Rooms.First().Id}");
 
         Assert.NotNull(result);
         Assert.Equal(hotel.Rooms.First().Id, result.Id);
@@ -37,7 +37,7 @@ public class GetRoomByIdApiTests
         await db.SaveChangesAsync();
         
         var client = application.CreateClient();
-        var result = await client.GetAsync($"/rooms/id/{123}");
+        var result = await client.GetAsync($"/rooms/{123}");
 
         Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
     }

@@ -21,7 +21,7 @@ public static class PostRoomApi
                 {
                     var room = await addRoom.Handle(dto);
 
-                    return Results.Created($"rooms/id/{room.Id}", room);
+                    return Results.Created($"rooms/{room.Id}", room);
                 }
                 catch (ArgumentException e)
                 {

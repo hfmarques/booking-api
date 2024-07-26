@@ -26,12 +26,12 @@ public class PutCustomerApiTests
         };
 
         var clientPostCustomer = application.CreateClient();
-        var response = await clientPostCustomer.PutAsJsonAsync($"customers/id/{validCustomer.First().Id}", dto);
+        var response = await clientPostCustomer.PutAsJsonAsync($"customers/{validCustomer.First().Id}", dto);
 
         response.EnsureSuccessStatusCode();
 
         var clientGetCustomer = application.CreateClient();
-        var customer = await clientGetCustomer.GetFromJsonAsync<Core.Domain.Entities.Customer>($"/customers/id/{validCustomer.First().Id}");
+        var customer = await clientGetCustomer.GetFromJsonAsync<Core.Domain.Entities.Customer>($"/customers/{validCustomer.First().Id}");
 
         Assert.NotNull(customer);
         Assert.Equal(validCustomer.First().Id, customer.Id);
@@ -53,7 +53,7 @@ public class PutCustomerApiTests
         };
 
         var clientPostCustomer = application.CreateClient();
-        var response = await clientPostCustomer.PutAsJsonAsync($"customers/id/{dto.Id}", dto);
+        var response = await clientPostCustomer.PutAsJsonAsync($"customers/{dto.Id}", dto);
 
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }

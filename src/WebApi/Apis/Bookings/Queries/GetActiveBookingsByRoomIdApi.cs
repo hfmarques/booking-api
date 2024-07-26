@@ -9,15 +9,15 @@ public static class GetActiveBookingsByRoomIdApi
         this IEndpointRouteBuilder routes,
         RouteGroupBuilder group)
     {
-        group.MapGet("/active/roomId/{id:long}",
+        group.MapGet("/active/{roomId:long}",
             async (
                 [FromServices] IGetActiveBookingsByRoomId getBooking,
                 [FromServices] ILogger<IGetActiveBookingsByRoomId> logger,
-                long id) =>
+                long roomId) =>
             {
                 try
                 {
-                    var bookings = await getBooking.Handle(id);
+                    var bookings = await getBooking.Handle(roomId);
 
                     return bookings.Count == 0 ? Results.NotFound() : Results.Ok(bookings);
                 }

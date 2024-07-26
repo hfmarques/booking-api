@@ -17,7 +17,7 @@ public class GetCustomerByIdApiTests
         await db.SaveChangesAsync();
         
         var client = application.CreateClient();
-        var result = await client.GetFromJsonAsync<Core.Domain.Entities.Customer>($"/customers/id/{customers.First().Id}");
+        var result = await client.GetFromJsonAsync<Core.Domain.Entities.Customer>($"/customers/{customers.First().Id}");
 
         Assert.NotNull(result);
         Assert.Equal(customers.First().Id, result.Id);
@@ -36,7 +36,7 @@ public class GetCustomerByIdApiTests
         await db.SaveChangesAsync();
         
         var client = application.CreateClient();
-        var result = await client.GetAsync($"/customers/id/{123}");
+        var result = await client.GetAsync($"/customers/123");
 
         Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
     }

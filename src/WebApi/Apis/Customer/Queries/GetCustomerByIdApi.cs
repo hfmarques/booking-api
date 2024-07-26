@@ -9,7 +9,7 @@ public static class GetCustomerByIdApi
         this IEndpointRouteBuilder routes,
         RouteGroupBuilder group)
     {
-        group.MapGet("/id/{id:long}",
+        group.MapGet("/{id:long}",
             async (
                 [FromServices] IGetCustomerById getCustomerById,
                 [FromServices] ILogger<IGetCustomerById> logger,

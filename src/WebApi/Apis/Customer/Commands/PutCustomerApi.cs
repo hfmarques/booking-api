@@ -11,7 +11,7 @@ public static class PutCustomerApi
         this IEndpointRouteBuilder routes,
         RouteGroupBuilder group)
     {
-        group.MapPut("/id/{id:long}",
+        group.MapPut("/{id:long}",
             async (
                 [FromServices] IUpdateCustomer updateCustomer,
                 [FromServices] ILogger<IUpdateCustomer> logger,

@@ -9,7 +9,7 @@ namespace WebApi.Tests.Apis.Bookings.Commands;
 public class DeleteBookingApiTests
 {
     [Fact]
-    public async Task DeleteBookingApi_ReturnsCreated()
+    public async Task DeleteBookingApi_ReturnsNoContent()
     {
         await using var application = new WebApiApplication();
         var db = application.CreatePostgresDbContext();
@@ -34,7 +34,7 @@ public class DeleteBookingApiTests
         response.EnsureSuccessStatusCode();
         
         var clientGetHotel = application.CreateClient();
-        var bookingResponse = await clientGetHotel.GetFromJsonAsync<Core.Domain.Entities.Booking>($"bookings/id/{booking.Id}");
+        var bookingResponse = await clientGetHotel.GetFromJsonAsync<Core.Domain.Entities.Booking>($"bookings/{booking.Id}");
         
         Assert.NotNull(bookingResponse);
         Assert.Equal(BookingStatusId.Cancelled, bookingResponse.StatusId);

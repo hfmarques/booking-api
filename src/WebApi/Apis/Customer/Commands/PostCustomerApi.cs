@@ -20,7 +20,7 @@ public static class PostCustomerApi
                 {
                     var customer = await addCustomer.Handle(dto);
 
-                    return Results.Created($"customers/id/{customer.Id}", customer);
+                    return Results.Created($"customers/{customer.Id}", customer);
                 }
                 catch (ArgumentException e)
                 {

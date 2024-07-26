@@ -11,14 +11,18 @@ public static class PutBookingApi
         this IEndpointRouteBuilder routes,
         RouteGroupBuilder group)
     {
-        group.MapPut("/",
+        group.MapPut("/{id:long}",
             async (
                 [FromServices] IUpdateBooking updateBooking,
                 [FromServices] ILogger<IUpdateBooking> logger,
+                long id,
                 UpdateBookingDto dto) =>
             {
                 try
                 {
+                    if (id != dto.Id)
+                        return Results.BadRequest("Ids not match");
+                    
                     await updateBooking.Handle(dto);
 
                     return Results.NoContent();

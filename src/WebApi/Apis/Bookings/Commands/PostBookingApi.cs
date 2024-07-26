@@ -21,7 +21,7 @@ public static class PostBookingApi
                 {
                     var booking = await bookRoom.Handle(dto);
 
-                    return Results.Created($"bookings/id/{booking.Id}", booking);
+                    return Results.Created($"bookings/{booking.Id}", booking);
                 }
                 catch (Exception e)
                 {
