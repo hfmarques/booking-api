@@ -24,6 +24,8 @@ public class PostHotelApiTests
         var clientPostHotel = application.CreateClient();
         var response = await clientPostHotel.PostAsJsonAsync("hotels", dto);
 
+        response.EnsureSuccessStatusCode();
+
         var clientGetHotel = application.CreateClient();
         var hotel = await clientGetHotel.GetFromJsonAsync<Core.Domain.Entities.Hotel>(
             response.Headers.Location);

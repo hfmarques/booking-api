@@ -15,5 +15,7 @@ public static class BookingsApiMap
         app.MapGetUpcomingBookingsApi(group);
         app.MapGetActiveBookingsByRoomIdApi(group);
         app.MapPostBookingApi(group);
+        app.MapPutBookingApi(group);
+        app.MapDeleteBookingApi(group);
     }
 }

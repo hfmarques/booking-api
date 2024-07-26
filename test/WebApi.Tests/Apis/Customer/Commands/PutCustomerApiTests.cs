@@ -26,7 +26,9 @@ public class PutCustomerApiTests
         };
 
         var clientPostCustomer = application.CreateClient();
-        await clientPostCustomer.PutAsJsonAsync($"customers/id/{validCustomer.First().Id}", dto);
+        var response = await clientPostCustomer.PutAsJsonAsync($"customers/id/{validCustomer.First().Id}", dto);
+
+        response.EnsureSuccessStatusCode();
 
         var clientGetCustomer = application.CreateClient();
         var customer = await clientGetCustomer.GetFromJsonAsync<Core.Domain.Entities.Customer>($"/customers/id/{validCustomer.First().Id}");

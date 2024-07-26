@@ -19,6 +19,8 @@ public class PostCustomerApiTests
             using var clientPostCustomer = application.CreateClient();
             using var response = await clientPostCustomer.PostAsJsonAsync("customers", dto);
 
+            response.EnsureSuccessStatusCode();
+
             var clientGetCustomer = application.CreateClient();
             var customer = await clientGetCustomer.GetFromJsonAsync<Core.Domain.Entities.Customer>(
                 response.Headers.Location);

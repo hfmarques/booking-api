@@ -34,6 +34,8 @@ public class PostBookingApiTests
                 CustomerId = dto.Customer!.Id
             });
             
+            response.EnsureSuccessStatusCode();
+            
             var clientGetHotel = application.CreateClient();
             var booking = await clientGetHotel.GetFromJsonAsync<Core.Domain.Entities.Booking>(
                 response.Headers.Location);

@@ -24,7 +24,9 @@ public class PutHotelApiTests
         };
 
         var clientPostHotel = application.CreateClient();
-        await clientPostHotel.PutAsJsonAsync($"hotels/id/{dto.Id}", dto);
+        var response = await clientPostHotel.PutAsJsonAsync($"hotels/id/{dto.Id}", dto);
+
+        response.EnsureSuccessStatusCode();
 
         var clientGetHotel = application.CreateClient();
         var hotel = await clientGetHotel.GetFromJsonAsync<Core.Domain.Entities.Hotel>($"/hotels/id/{validHotel.Id}");

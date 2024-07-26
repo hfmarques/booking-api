@@ -5,28 +5,28 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Apis.Bookings.Commands;
 
-public static class PostBookingApi
+public static class PutBookingApi
 {
-    public static void MapPostBookingApi(
+    public static void MapPutBookingApi(
         this IEndpointRouteBuilder routes,
         RouteGroupBuilder group)
     {
-        group.MapPost("/",
+        group.MapPut("/",
             async (
-                [FromServices] IBookRoom bookRoom,
-                [FromServices] ILogger<IBookRoom> logger,
-                BookRoomDto dto) =>
+                [FromServices] IUpdateBooking updateBooking,
+                [FromServices] ILogger<IUpdateBooking> logger,
+                UpdateBookingDto dto) =>
             {
                 try
                 {
-                    var booking = await bookRoom.Handle(dto);
+                    await updateBooking.Handle(dto);
 
-                    return Results.Created($"bookings/id/{booking.Id}", booking);
+                    return Results.NoContent();
                 }
                 catch (Exception e)
                 {
                     logger.LogError("{Exception}", e.ToString());
-                    return Results.BadRequest("There was an error creating the booking");
+                    return Results.BadRequest("There was an error updating the booking");
                 }
             });
     }

@@ -5,28 +5,28 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Apis.Bookings.Commands;
 
-public static class PostBookingApi
+public static class DeleteBookingApi
 {
-    public static void MapPostBookingApi(
+    public static void MapDeleteBookingApi(
         this IEndpointRouteBuilder routes,
         RouteGroupBuilder group)
     {
-        group.MapPost("/",
+        group.MapDelete("/{id:long}",
             async (
-                [FromServices] IBookRoom bookRoom,
-                [FromServices] ILogger<IBookRoom> logger,
-                BookRoomDto dto) =>
+                [FromServices] ICancelBooking updateBooking,
+                [FromServices] ILogger<ICancelBooking> logger,
+                long id) =>
             {
                 try
                 {
-                    var booking = await bookRoom.Handle(dto);
+                    await updateBooking.Handle(id);
 
-                    return Results.Created($"bookings/id/{booking.Id}", booking);
+                    return Results.NoContent();
                 }
                 catch (Exception e)
                 {
                     logger.LogError("{Exception}", e.ToString());
-                    return Results.BadRequest("There was an error creating the booking");
+                    return Results.BadRequest("There was an error cancelling the booking");
                 }
             });
     }

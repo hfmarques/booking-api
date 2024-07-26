@@ -26,6 +26,8 @@ public class PostRoomApiTests
         var clientPostRoom = application.CreateClient();
         var response = await clientPostRoom.PostAsJsonAsync("rooms", dto);
 
+        response.EnsureSuccessStatusCode();
+
         var clientGetRoom = application.CreateClient();
         var room = await clientGetRoom.GetFromJsonAsync<Core.Domain.Entities.Room>(
             response.Headers.Location);

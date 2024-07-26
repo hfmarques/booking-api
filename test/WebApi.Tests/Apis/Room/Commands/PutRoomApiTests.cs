@@ -28,7 +28,9 @@ public class PutRoomApiTests
         };
 
         var clientPostRoom = application.CreateClient();
-        await clientPostRoom.PutAsJsonAsync($"rooms/id/{roomSaved.Id}", dto);
+        var response = await clientPostRoom.PutAsJsonAsync($"rooms/id/{roomSaved.Id}", dto);
+        
+        response.EnsureSuccessStatusCode();
 
         var clientGetRoom = application.CreateClient();
         var room = await clientGetRoom.GetFromJsonAsync<Core.Domain.Entities.Room>($"/rooms/id/{roomSaved.Id}");
