@@ -1,7 +1,10 @@
 ﻿using Architecture.Project.FileStorage;
 using Architecture.Project.SqsMessageBus;
 using Core;
+using Core.Domain.Entities;
+using Core.Domain.Enums;
 using Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -47,6 +50,9 @@ public static class ServiceConfiguration
         }
         
         builder.Services.AddHealthChecks()
-            .AddCheck("self", () => HealthCheckResult.Healthy(), ["live"]);
+            .AddDbContextCheck<PostgresDbContext>(
+                "dbHealthCheck",
+                customTestQuery: (db, cancellationToken) => db.Set<BookingStatus>().AnyAsync(cancellationToken)
+            );
     }
 }
