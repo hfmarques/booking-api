@@ -22,7 +22,7 @@ public static class PutRoomApi
                 {
                     if (id != dto.Id)
                         return Results.BadRequest("Room id must be equal");
-                    
+
                     await updateRoom.Handle(dto);
 
                     return Results.NoContent();

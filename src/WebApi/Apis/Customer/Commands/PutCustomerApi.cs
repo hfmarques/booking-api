@@ -22,7 +22,7 @@ public static class PutCustomerApi
                 {
                     if (id != dto.Id)
                         return Results.BadRequest("Customer id must be equal");
-                    
+
                     await updateCustomer.Handle(dto);
 
                     return Results.NoContent();

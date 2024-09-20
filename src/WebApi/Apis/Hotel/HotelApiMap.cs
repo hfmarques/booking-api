@@ -12,7 +12,7 @@ public static class HotelApiMap
 
         app.MapGetHotelsApi(group);
         app.MapGetHotelByIdApi(group);
-        
+
         app.MapPostHotelApi(group);
         app.MapPutHotelApi(group);
     }

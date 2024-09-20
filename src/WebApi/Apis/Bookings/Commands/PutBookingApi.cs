@@ -22,7 +22,7 @@ public static class PutBookingApi
                 {
                     if (id != dto.Id)
                         return Results.BadRequest("Ids not match");
-                    
+
                     await updateBooking.Handle(dto);
 
                     return Results.NoContent();

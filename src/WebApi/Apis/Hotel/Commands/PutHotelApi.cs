@@ -22,7 +22,7 @@ public static class PutHotelApi
                 {
                     if (id != dto.Id)
                         return Results.BadRequest("Hotel id must be equal");
-                    
+
                     await updateHotel.Handle(dto);
 
                     return Results.NoContent();
