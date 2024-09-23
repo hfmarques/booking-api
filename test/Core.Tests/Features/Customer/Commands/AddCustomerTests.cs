@@ -11,11 +11,7 @@ public class AddCustomerTests
 {
     private readonly AddCustomer addCustomer;
 
-    private readonly AddCustomerDto dto = new()
-    {
-        Name = "Customer Test",
-        Phone = "000123456789"
-    };
+    private AddCustomerDto dto = new("Customer Test", "000123456789");
 
     private readonly Mock<ICustomerQueryRepository> customerQueryRepository = new();
     private readonly Mock<ICommandRepository<Domain.Entities.Customer>> commandRepository = new();
@@ -47,8 +43,7 @@ public class AddCustomerTests
     public async Task AddCustomer_NameIsNull_ThrowsArgumentException()
     {
         // Arrange
-        dto.Name = null!;
-
+        dto = new(null!, "000123456789");
         // Act & Assert
         var e = await Assert.ThrowsAsync<ArgumentNullException>(
             () => addCustomer.Handle(dto)
@@ -61,8 +56,7 @@ public class AddCustomerTests
     public async Task AddCustomer_PhoneIsNull_ThrowsArgumentException()
     {
         // Arrange
-        dto.Phone = null!;
-
+        dto = new("Customer Test", null!);
         // Act & Assert
         var e = await Assert.ThrowsAsync<ArgumentNullException>(
             () => addCustomer.Handle(dto)

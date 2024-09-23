@@ -14,16 +14,11 @@ public class PutCustomerApiTests
         var db = application.CreatePostgresDbContext();
 
         var validCustomer = GetValidCustomerToTest.Handle(1);
-        
+
         await db.AddRangeAsync(validCustomer);
         await db.SaveChangesAsync();
 
-        var dto = new UpdateCustomerDto()
-        {
-            Id = validCustomer.First().Id,
-            Name = "Name 1",
-            Phone = "Phone 1"
-        };
+        var dto = new UpdateCustomerDto(validCustomer.First().Id,"Name 1","Phone 1");
 
         var clientPostCustomer = application.CreateClient();
         var response = await clientPostCustomer.PutAsJsonAsync($"customers/{validCustomer.First().Id}", dto);
@@ -45,12 +40,7 @@ public class PutCustomerApiTests
         await using var application = new WebApiApplication();
         application.CreatePostgresDbContext();
 
-        var dto = new UpdateCustomerDto()
-        {
-            Id = 123,
-            Name = "aaaa",
-            Phone = "   ",
-        };
+        var dto = new UpdateCustomerDto(123,"aaaa", "   ");
 
         var clientPostCustomer = application.CreateClient();
         var response = await clientPostCustomer.PutAsJsonAsync($"customers/{dto.Id}", dto);

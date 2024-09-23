@@ -1,9 +1,8 @@
 ﻿namespace Core.Domain.Dtos.Customer;
 
-public class UpdateCustomerDto
-{
-    public required long Id { get; set; }
-    public required string Name { get; set; }
-    public required string Phone { get; set; }
-    public string? Address { get; set; }   
-}
+public record UpdateCustomerDto(
+    long Id,
+    string Name,
+    string Phone,
+    string? Address = null
+);

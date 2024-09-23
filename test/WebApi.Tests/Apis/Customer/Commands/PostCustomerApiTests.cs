@@ -37,11 +37,7 @@ public class PostCustomerApiTests
         await using var application = new WebApiApplication();
         application.CreatePostgresDbContext();
 
-        var dto = new AddCustomerDto
-        {
-            Name = "Test",
-            Phone = "  "
-        };
+        var dto = new AddCustomerDto("Test", "  ");
 
         var clientPostCustomer = application.CreateClient();
         var response = await clientPostCustomer.PostAsJsonAsync("customers", dto);
