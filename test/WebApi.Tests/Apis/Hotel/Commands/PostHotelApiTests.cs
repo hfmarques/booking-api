@@ -13,10 +13,7 @@ public class PostHotelApiTests
         application.CreatePostgresDbContext();
 
         var dto = new AddHotelDto("Test",
-            GetValidHotelToTest.Handle(50).Rooms.Select(x => new AddHotelRoomDto
-            {
-                Number = x.Number
-            }).ToList());
+            GetValidHotelToTest.Handle(50).Rooms.Select(x => new AddHotelRoomDto(x.Number)).ToList());
 
         var clientPostHotel = application.CreateClient();
         var response = await clientPostHotel.PostAsJsonAsync("hotels", dto);
@@ -38,10 +35,7 @@ public class PostHotelApiTests
         application.CreatePostgresDbContext();
 
         var dto = new AddHotelDto("",
-            GetValidHotelToTest.Handle(1).Rooms.Select(x => new AddHotelRoomDto
-            {
-                Number = x.Number
-            }).ToList()
+            GetValidHotelToTest.Handle(1).Rooms.Select(x => new AddHotelRoomDto(x.Number)).ToList()
         );
 
 

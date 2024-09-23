@@ -13,15 +13,11 @@ public class PutHotelApiTests
         var db = application.CreatePostgresDbContext();
 
         var validHotel = GetValidHotelToTest.Handle(5);
-        
+
         await db.Set<Core.Domain.Entities.Hotel>().AddAsync(validHotel);
         await db.SaveChangesAsync();
 
-        var dto = new UpdateHotelDto()
-        {
-            Id = validHotel.Id,
-            Name = "Test 123",
-        };
+        var dto = new UpdateHotelDto(validHotel.Id, "Test 123");
 
         var clientPostHotel = application.CreateClient();
         var response = await clientPostHotel.PutAsJsonAsync($"hotels/{dto.Id}", dto);
@@ -41,11 +37,7 @@ public class PutHotelApiTests
         await using var application = new WebApiApplication();
         application.CreatePostgresDbContext();
 
-        var dto = new UpdateHotelDto()
-        {
-            Id = 123,
-            Name = "Test 123",
-        };
+        var dto = new UpdateHotelDto(123, "Test 123");
 
         var clientPostHotel = application.CreateClient();
         var response = await clientPostHotel.PutAsJsonAsync($"hotels/{dto.Id}", dto);

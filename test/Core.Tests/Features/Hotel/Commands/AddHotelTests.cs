@@ -13,18 +13,9 @@ public class AddHotelTests
     private AddHotelDto dto = new(
         "Hotel Test",
         [
-            new()
-            {
-                Number = 101
-            },
-            new()
-            {
-                Number = 102
-            },
-            new()
-            {
-                Number = 103
-            },
+            new(101),
+            new(102),
+            new(103),
         ]);
 
     private readonly Mock<ICommandRepository<Domain.Entities.Hotel>> commandRepository = new();
@@ -96,20 +87,9 @@ public class AddHotelTests
     {
         // Arrange
         dto = new("aaa", [
-            new()
-            {
-                Number = 101
-            },
-
-            new()
-            {
-                Number = 102
-            },
-
-            new()
-            {
-                Number = 101
-            }
+            new(101),
+            new(102),
+            new(101),
         ]);
 
         // Act & Assert

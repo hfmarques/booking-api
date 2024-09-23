@@ -2,8 +2,4 @@ using Core.Domain.Enums;
 
 namespace Core.Domain.Dtos.Hotel;
 
-public class AddHotelRoomDto
-{
-    public required int Number { get; set; }
-    public RoomStatusId? StatusId { get; set; }
-}
+public record AddHotelRoomDto(int Number, RoomStatusId? StatusId = null);
