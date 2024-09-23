@@ -12,11 +12,7 @@ public class UpdateRoomTests
 {
     private readonly UpdateRoom updateRoom;
 
-    private readonly UpdateRoomDto dto = new()
-    {
-        Id = 1,
-        StatusId = RoomStatusId.UnderMaintenance
-    };
+    private readonly UpdateRoomDto dto = new(1, RoomStatusId.UnderMaintenance);
 
     private readonly Mock<IGetRoomById> getRoomById = new();
     private readonly Mock<ICommandRepository<Domain.Entities.Room>> commandRepository = new();
@@ -33,7 +29,7 @@ public class UpdateRoomTests
                 Number = 1
             });
     }
-    
+
     [Fact]
     public async Task UpdateRoom_ValidDto_ReturnsRoom()
     {
@@ -50,19 +46,19 @@ public class UpdateRoomTests
 
         Assert.Contains("dto", e.Message);
     }
-    
+
     [Fact]
     public async Task UpdateRoom_RoomDoesNotExists_ThrowsException()
     {
         getRoomById.Setup(x =>
                 x.Handle(It.IsAny<long>()))
             .ReturnsAsync((Domain.Entities.Room)null!);
-        
+
         // Act & Assert
         var e = await Assert.ThrowsAsync<ArgumentNullException>(
             () => updateRoom.Handle(dto)
         );
-        
+
         Assert.Contains("room", e.Message);
     }
 }

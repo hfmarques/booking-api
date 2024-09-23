@@ -16,20 +16,16 @@ public class PutRoomApiTests
         var validHotel = GetValidHotelToTest.Handle();
 
         validHotel.Rooms.First().StatusId = RoomStatusId.Available;
-        
+
         await db.AddAsync(validHotel);
         await db.SaveChangesAsync();
 
         var roomSaved = validHotel.Rooms.First();
-        var dto = new UpdateRoomDto()
-        {
-            Id = roomSaved.Id,
-            StatusId = RoomStatusId.UnderMaintenance
-        };
+        var dto = new UpdateRoomDto(roomSaved.Id, RoomStatusId.UnderMaintenance);
 
         var clientPostRoom = application.CreateClient();
         var response = await clientPostRoom.PutAsJsonAsync($"rooms/{roomSaved.Id}", dto);
-        
+
         response.EnsureSuccessStatusCode();
 
         var clientGetRoom = application.CreateClient();
@@ -46,11 +42,7 @@ public class PutRoomApiTests
         await using var application = new WebApiApplication();
         application.CreatePostgresDbContext();
 
-        var dto = new UpdateRoomDto()
-        {
-            Id = 123,
-            StatusId = RoomStatusId.Available,
-        };
+        var dto = new UpdateRoomDto(123, RoomStatusId.Available);
 
         var clientPostRoom = application.CreateClient();
         var response = await clientPostRoom.PutAsJsonAsync($"rooms/{dto.Id}", dto);

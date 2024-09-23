@@ -11,11 +11,7 @@ public class AddRoomTests
 {
     private readonly AddRoom addRoom;
 
-    private readonly AddRoomDto dto = new()
-    {
-        Number = 2,
-        HotelId = 1
-    };
+    private AddRoomDto dto = new(2, 1);
 
     private readonly Mock<IGetHotelById> getHotelById = new();
     private readonly Mock<ICommandRepository<Domain.Entities.Room>> commandRepository = new();
@@ -38,7 +34,7 @@ public class AddRoomTests
                 ]
             });
     }
-    
+
     [Fact]
     public async Task AddRoom_ValidDto_ReturnsRoom()
     {
@@ -55,35 +51,33 @@ public class AddRoomTests
 
         Assert.Contains("dto", e.Message);
     }
-    
+
     [Fact]
     public async Task AddRoom_NumberIsInvalid_ThrowsException()
     {
         // Arrange
-        dto.Number = 0;
-
+        dto = new(0, 1);
         // Act & Assert
         var e = await Assert.ThrowsAsync<ArgumentOutOfRangeException>(
             () => addRoom.Handle(dto)
         );
-        
+
         Assert.Contains("Number", e.Message);
     }
-    
+
     [Fact]
     public async Task AddRoom_HotelIdIsInvalid_ThrowsException()
     {
         // Arrange
-        dto.HotelId = 0;
-
+        dto = new(2, 0);
         // Act & Assert
         var e = await Assert.ThrowsAsync<ArgumentOutOfRangeException>(
             () => addRoom.Handle(dto)
         );
-        
+
         Assert.Contains("HotelId", e.Message);
     }
-    
+
     [Fact]
     public async Task AddRoom_HotelDoesNotExist_ThrowsException()
     {
@@ -95,12 +89,11 @@ public class AddRoomTests
 
         Assert.Contains("hotel", e.Message);
     }
-    
+
     [Fact]
     public async Task AddRoom_RoomAlreadyExists_ThrowsException()
     {
-        dto.Number = 101;
-        
+        dto = new(101, 1);
         var e = await Assert.ThrowsAsync<ArgumentException>(() => addRoom.Handle(dto));
 
         Assert.Contains("This hotel already has a room with this number", e.Message);

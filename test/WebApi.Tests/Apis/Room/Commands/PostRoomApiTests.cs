@@ -16,12 +16,8 @@ public class PostRoomApiTests
 
         await db.AddAsync(hotel);
         await db.SaveChangesAsync();
-        
-        var dto = new AddRoomDto
-        {
-            Number = 1,
-            HotelId = hotel.Id
-        };
+
+        var dto = new AddRoomDto(1, hotel.Id);
 
         var clientPostRoom = application.CreateClient();
         var response = await clientPostRoom.PostAsJsonAsync("rooms", dto);
@@ -43,11 +39,7 @@ public class PostRoomApiTests
         await using var application = new WebApiApplication();
         application.CreatePostgresDbContext();
 
-        var dto = new AddRoomDto
-        {
-            Number = 101,
-            HotelId = 1
-        };
+        var dto = new AddRoomDto(101, 1);
 
         var clientPostRoom = application.CreateClient();
         var response = await clientPostRoom.PostAsJsonAsync("rooms", dto);
