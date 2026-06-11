@@ -3,9 +3,9 @@
   <Import Project="../../Build.props"/>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.8"/>
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.8"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.8"/>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.2"/>
   </ItemGroup>
 
   <ItemGroup>
