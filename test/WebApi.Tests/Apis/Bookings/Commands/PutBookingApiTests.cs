@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Net.Http.Json;
 using Core.Domain.Dtos.Booking;
 using Core.Domain.Dtos.Hotel;
@@ -32,7 +32,7 @@ public class PutBookingApiTests
         {
             Id = booking.Id,
             StartDate = booking.StartDate,
-            EndDate = booking.EndDate.AddDays(-1),
+            EndDate = booking.StartDate.AddDays(2),
             RoomId = booking.Room!.Id,
             CustomerId = booking.Customer!.Id
         });
@@ -43,7 +43,7 @@ public class PutBookingApiTests
         var bookingResponse = await clientGetHotel.GetFromJsonAsync<Core.Domain.Entities.Booking>($"bookings/{booking.Id}");
         
         Assert.NotNull(bookingResponse);
-        Assert.Equal(booking.EndDate.AddDays(-1), bookingResponse.EndDate);
+        Assert.Equal(booking.StartDate.AddDays(2), bookingResponse.EndDate);
     }
 
     [Fact]

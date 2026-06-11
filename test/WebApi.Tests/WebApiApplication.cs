@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Headers;
+using System.Net.Http.Headers;
 using Data;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -24,11 +24,19 @@ public class WebApiApplication : WebApplicationFactory<Program>
 
         builder.ConfigureServices(services =>
         {
-            var descriptor =
-                services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<PostgresDbContext>));
+            var toRemove = services.Where(d => 
+                d.ServiceType == typeof(DbContext) ||
+                d.ServiceType == typeof(PostgresDbContext) ||
+                (d.ServiceType.FullName != null && (d.ServiceType.FullName.Contains("PostgresDbContext") || d.ServiceType.FullName.Contains("DbContextOptions")))
+            ).ToList();
 
-            if (descriptor != null) services.Remove(descriptor);
+            foreach (var descriptor in toRemove)
+            {
+                services.Remove(descriptor);
+            }
+
             services.AddDbContextFactory<PostgresDbContext>(o => o.UseInMemoryDatabase(Guid.NewGuid().ToString()));
+            services.AddScoped<DbContext>(sp => sp.GetRequiredService<PostgresDbContext>());
         });
         return base.CreateHost(builder);
     }

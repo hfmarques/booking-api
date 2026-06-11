@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Net.Http.Json;
 using Core.Domain.Enums;
 
@@ -19,6 +19,7 @@ public class GetActiveBookingsByRoomIdApiTests
         await db.Set<Core.Domain.Entities.Customer>().AddRangeAsync(customers);
         
         var bookings = GetValidBookingsToTest.Handle(hotel.Rooms, customers);
+        bookings.First().StatusId = BookingStatusId.Confirmed;
         
         await db.Set<Core.Domain.Entities.Booking>().AddRangeAsync(bookings);
         await db.SaveChangesAsync();
